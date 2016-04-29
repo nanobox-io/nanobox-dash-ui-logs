@@ -1,0 +1,51 @@
+//-
+#app-logs.columns.col_full.twelve(class = "live")
+  //- .quickdoc_toggle(data: (quickdoc: "app_logs", heading: "App Logs"))
+
+  .control-panel
+    .toggles
+      .radio.radio-bottom.toggle.live(data-toggle = "live")
+        .icon
+          img.shadow-icon(data-src = "live-logs")
+        .label.live Live Stream
+      .radio.radio-bottom.toggle.historic(data-toggle = "historic")
+        .icon
+          img.shadow-icon(data-src = "historic-logs")
+        .label.historic Historical
+
+    //- 
+    .descriptions
+      p.description.live Application logs such as stdout, stderr, etc., emitted from your application; The primary source for troubleshooting your application.
+      p.description.historic A historic representation of the streaming log. Anything not seen during a stream can be found here.
+      
+  //-
+  table.log-panel.live
+    thead
+      tr
+        td
+          //- placeholder
+
+        td
+          //- streaming/historic
+          .input.filter
+            input(placeholder: 'Filter logs')
+
+          //- streaming/build
+          .follow-holder
+            .follow-log.locked
+
+          //- historic
+          button.simple#view-more
+
+    tbody
+      tr
+        td
+
+          //- streaming/historic
+          .entries
+            //- added via javascript
+
+        //-
+        td
+          pre.messages.selectable
+            //- added via javascript

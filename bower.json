@@ -6,7 +6,8 @@
     "velocity": "~1.1.0",
     "shadow-icons": "tolmark12/shadow-icons-js",
     "PubSubJS": "pubsub-js#^1.5.3",
-    "moment": "^2.13.0"
+    "moment": "^2.13.0",
+    "lodash": "^4.11.2"
   },
   "ignore": [
     "app",

@@ -1,196 +1,225 @@
 @import 'vars-and-utils';
 
 
-// $panel_min_height:  400px;
-// $panel_left_width:  175px;
-// $panel_right_width: 800px;
+$panel_min_height:  400px;
+$panel_left_width:  175px;
+$panel_right_width: 800px;
+
+$white:           #FFFFFF;
+$dashboard_11:    #D5D5D5;
+$dashboard_29:    #0E2026;
+$dashboard_49:    #769AA6;
+$dashboard_56:    #596C70;
+$dashboard_64:    #1F3137;
+$dashboard_73:    #48B5DA;
+$dashboard_79:    #028CB9;
+$dashboard_92:    #36BCC2;
+$dashboard_106:   #7DB951;
+$dashboard_113:   #FCF1AB;
+$dashboard_125:   #ED5F80;
+$dashboard_129:   #E21954;
+$dashboard_133:   #8F394D;
+
 //
+@mixin font-size ($size, $line-height: $size) { font-size:$size; line-height:$line-height; }
+
+//
+@mixin border-radius ($r1:4px, $r2:4px, $r3:4px, $r4:4px){
+  -webkit-border-radius: $r1 $r2 $r3 $r4;
+  -moz-border-radius: $r1 $r2 $r3 $r4;
+  border-radius: $r1 $r2 $r3 $r4;
+}
+
+//
+@mixin align( $align ) {
+  position:relative;
+
+  //
+  @if $align == 'horizontal' {
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform:     translateX(-50%);
+    transform:         translateX(-50%);
+  }
+
+  //
+  @else if $align == 'vertical' {
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform:     translateY(-50%);
+    transform:         translateY(-50%);
+  }
+
+  //
+  @else if $align == 'center' {
+    top: 50%; left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform:     translate(-50%, -50%);
+    transform:         translate(-50%, -50%);
+  }
+}
+
 // @import "logs/*";
-//
-// @mixin panel_left_defaults          { min-width:$panel_left_width; width:$panel_left_width; max-width:$panel_left_width; }
-// @mixin panel_right_defaults         { min-width:$panel_right_width; width:$panel_right_width; max-width:$panel_right_width; }
-//
-// #app-logs                           {
-//
-//   // checked styles
-//   .checked                          {pointer-events:none;
-//     .label                          {color:$dashboard_79;}
-//     .icon svg *                     {stroke:$dashboard_79;}
-//   }
-//
-//   .quickdoc_toggle                  {top:75px; right:0px;}
-//
-//   //
-//   .control-panel                    {display:inline-block; position:relative; float:right; width:$panel_right_width; margin: 12px 34px 30px 0;
-//
-//     .toggles                        {display:inline-block;
-//       .radio                        {display:inline-block; width:125px; border-right:1px solid $dashboard_11;
-//         .icon                       {height:50px; svg {@include align('vertical');}}
-//         &:hover                     {.label {color:$dashboard_73;} .icon svg * {stroke: $dashboard_73;}}
-//       }
-//     }
-//
-//     .descriptions                   {display:inline-block; width:412px; padding-left:25px;
-//       .description                  {margin:0px; line-height:22px;}
-//     }
-//   }
-//
-//   //
-//   table.log-panel                   { position:relative; height:$panel_min_height; clear:both;
-//     &:after                         { @include align('horizontal'); @include font-size(13px); display:none; content:""; position: absolute; top:200px; left:58%; z-index:1; width:auto; padding:8px; color:$dashboard_73; text-align:center; background:$dashboard_64; }
-//
-//     &.api-failed:after              { @include animation('pulsate 1.2s infinite'); display:block; content:"Unable to communicate with the nanobox api, please try again."; color:$dashboard_129; }
-//     &.communication-error:after     { @include animation('pulsate 1.2s infinite'); display:block; content:"The nanobox api failed unexpectedly, give us a minute and try again."; color:$dashboard_129; }
-//
-//     &.connecting-live:after         { @include animation('pulsate 1.2s infinite'); display:block; content:"Connecting Live Stream..."; }
-//     &.awaiting-data:after           { @include animation('pulsate 1.2s infinite'); display:block; content:"Connected! Listening for your app to log something..."; color:$dashboard_106; }
-//
-//     &.retrieving-history-log:after  { @include animation('pulsate 1.2s infinite'); display:block; content:"Retrieving Historical Data..."; }
-//     &.loading-records:after         { @include animation('pulsate 1.2s infinite'); display:block; content:"Loading Records..."; }
-//     &.no-historical:after           { @include animation("slowFadeOut 3s forwards"); display:block; content:'No Historical Data Found...'; color:$dashboard_113; }
-//
-//     &.no-build-selected:after      { @include animation('pulsate 1.2s infinite'); display:block; content:"No Deploy Selected..."; }
-//     &.no-build-logs:after          { @include animation('pulsate 1.2s infinite'); display:block; content:"No Deploy Logs..."; color:$dashboard_113; }
-//     &.no-build-log:after           { @include animation('pulsate 1.2s infinite'); display:block; content:"Deploy Logs Unavailable..."; color:$dashboard_113; }
-//     &.retrieving-build-log:after    { @include animation('pulsate 1.2s infinite'); display:block; content:"Retrieving Build Log..."; }
-//     &.no-build-log:after            { @include animation('pulsate 1.2s infinite'); display:block; content:"No Build Log Found..."; color:$dashboard_113; }
-//
-//
-//     thead                           { @include font-size(15px); background:none;
-//       tr                            { height:33px;
-//         td                          {
-//           &:first-child             { @include panel_left_defaults; padding:3px; color:$dashboard_29; vertical-align:bottom; background:none; }
-//           &:last-child              { @include panel_right_defaults; padding:8px; background:white;
-//             .radio                  { margin-right:18px; }
-//
-//             .input                  { width:400px; float:left; margin:0px; padding:0px;
-//               &:before              { @include pagodacons(normal, '\004D'); display:inline-block; margin-right:5px; }
-//               input                 { display:inline-block; height:17px; width:375px; padding:0px; background:$white; font-size:12px; }
-//             }
-//
-//             #view-more              { position:relative; float:right; padding:2px; cursor:pointer; }
-//
-//             // This way the log follower keeps its horizontal position even when it gets positioned statically
-//             .follow-holder          { display:inline-block; float:right; width:120px; margin-right:10px; }
-//             .follow-log             { width:120px; padding:0px; cursor:pointer; overflow:hidden; z-index:1; font-size:12px;
-//               &:before              { display:inline-block; float:right; color:$dashboard_49; text-align:center; }
-//               &:after               { @include pagodacons(bold, '\25C9'); @include font-size(68px); display:inline-block; float:right; margin-right:8px; line-height:5px; color:$dashboard_49;  }
-//               &:hover               {
-//                 &:before, &:after   { color:$dashboard_73; }
-//               }
-//
-//               &.locked              {
-//                 &:before            { content:'Follow Log'; }
-//                 &:after             { @include border-radius(50%, 50%, 50%, 50%); background:none; }
-//                 &.active            {
-//                   &:before, &:after { color:$dashboard_125; }
-//                 }
-//               }
-//
-//               &.following           { padding:0px; position:fixed; top:8px;
-//                 &:before            { content:''; display:none; }
-//                 &:after             { @include border-radius(50%, 50%, 50%, 50%); width:25px; height:25px; line-height:12px; color:$dashboard_29; background:$dashboard_56; }
-//
-//                 &:hover             { @include border-radius(50px, 50px, 50px, 50px); padding:5px; color:$dashboard_133; background:$dashboard_125;
-//                   &:before          { content:'Follow Log'; display:inline-block; margin:0px 8px; color:$dashboard_113; }
-//                   &:after           { width:initial; height:initial; line-height:5px; background:none; color:$dashboard_133; }
-//                 }
-//
-//                 &.active            {
-//                   &:before          { }
-//                   &:after           { background:$dashboard_125; color:$dashboard_133; }
-//
-//                   &:hover           { color:$dashboard_29; background:$dashboard_56;
-//                     &:before        { content:'Unfollow'; color:$dashboard_29;}
-//                     &:after         { background:none; color:$dashboard_29;}
-//                   }
-//                 }
-//               }
-//             }
-//           }
-//         }
-//       }
-//     }
-//
-//     tbody                           { counter-reset:row-number;
-//       tr                            {
-//         td                          { border:none;
-//           &:first-child             { @include panel_left_defaults; padding:15px 0px; background:$dashboard_29;
-//             .entries                { width:100%; margin:0px; font-family:$lato;
-//               .entry                { @include font-size(11px); display:inline-block; width:100%; padding:0px 15px; line-height:15px;
-//                 & > *               { display:inline-block; }
-//                 .time               { width:88px; }
-//                 .service            { }
-//               }
-//             }
-//           }
-//           &:last-child              { @include panel_right_defaults; padding:15px 0px; background:$dashboard_64; overflow-x:scroll; overflow-y:hidden;
-//             .messages               { display:inline-block; width:100%; margin:0px; font-family:$monaco; color:$dashboard_92; letter-spacing:0.5px;
-//               .message              { @include font-size(11px); display:block; float:left; width:100%; padding:0px 15px; line-height:15px; white-space:pre;
-//                 // &:before            { display:inline-block; width:36px; content:counter(row-number) "."; counter-increment:row-number; color:$dashboard_102; }
-//               }
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-//
-//   // disable all displays by default
-//   .control-panel                 {.descriptions {.description {@include transition(); display:none; opacity:0;}}}
-//   table.log-panel                {
-//     thead                        {
-//       // streaming/historical
-//       .input.filter              {display:none;}
-//
-//       // streaming/builds
-//       .follow-holder             {display:none;}
-//
-//       // historical
-//       #view-more                 {display:none;}
-//
-//       // builds
-//       .time                      {display:none;}
-//       .summary                   {display:none;}
-//       .abort-build               {display:none;}
-//     }
-//
-//     tbody                        {
-//       // streaming/histroical
-//       .entries                   {display:none;}
-//
-//       // builds
-//       .builds                    {display:none;}
-//     }
-//   }
-//
-//   // when live logs; turn on live log displays
-//   &.live                         {
-//     .control-panel               {.toggles {.toggle.live {@extend .checked;}}}
-//     .descriptions                {.description.live {display:inline-block; opacity:1;}}
-//     table.log-panel              {
-//       thead                      {.input.filter {display:inline-block;}.follow-holder {display:inline-block;}}
-//       tbody                      {.entries{display:inline-block;}}
-//     }
-//   }
-//
-//   // when historical logs; turn on historical log displays
-//   &.historical                   {
-//     .control-panel               {.toggles {.toggle.historical {@extend .checked;}}}
-//     .descriptions                {.description.historical {display:inline-block; opacity:1;}}
-//     table.log-panel              {
-//       thead                      {.input.filter {display:inline-block;} #view-more {display:inline-block;}}
-//       tbody                      {.entries{display:inline-block;}}
-//     }
-//   }
-//
-//   // when build logs; turn on build log displays
-//   &.build                       {
-//     .control-panel               {.toggles {.toggle.build {@extend .checked;}}}
-//     .descriptions                {.description.build {display:inline-block; opacity:1;}}
-//     table.log-panel              {
-//       thead                      {.follow-holder {display:inline-block;} .time {display:inline-block;} .summary {display:inline-block;} .abort-build {display:inline-block;}}
-//       tbody                      {.builds{display:inline-block;}}
-//     }
-//   }
-// }
+
+@mixin panel_left_defaults          { min-width:$panel_left_width; width:$panel_left_width; max-width:$panel_left_width; }
+@mixin panel_right_defaults         { min-width:$panel_right_width; width:$panel_right_width; max-width:$panel_right_width; }
+
+#app-logs                           {display:flex; flex-direction:column; width:1000px;
+
+  // checked styles
+  .checked                          {pointer-events:none;
+    .label                          {color:$dashboard_79;}
+    .icon svg *                     {stroke:$dashboard_79;}
+  }
+
+  .quickdoc_toggle                  {top:75px; right:0px;}
+
+  //
+  .control-panel                    {display:flex; align-self:flex-end; width:$panel_right_width;
+
+    .toggles                        {display:flex;
+      .radio                        {width:125px; border-right:1px solid $dashboard_11;
+        .icon                       {height:50px; svg {@include align('vertical');}}
+        &:hover                     {.label {color:$dashboard_73;} .icon svg * {stroke: $dashboard_73;}}
+      }
+    }
+
+    .descriptions                   {
+      .description                  {margin:0px; line-height:22px;}
+    }
+  }
+
+  //
+  table.log-panel                   {height:$panel_min_height;
+    &:after                         {@include align('horizontal'); @include font-size(13px); display:none; content:""; position: absolute; top:200px; left:58%; z-index:1; width:auto; padding:8px; color:$dashboard_73; text-align:center; background:$dashboard_64; }
+
+    // &.api-failed:after              { @include animation('pulsate 1.2s infinite'); display:block; content:"Unable to communicate with the nanobox api, please try again."; color:$dashboard_129; }
+    // &.communication-error:after     { @include animation('pulsate 1.2s infinite'); display:block; content:"The nanobox api failed unexpectedly, give us a minute and try again."; color:$dashboard_129; }
+    //
+    // &.connecting-live:after         { @include animation('pulsate 1.2s infinite'); display:block; content:"Connecting Live Stream..."; }
+    // &.awaiting-data:after           { @include animation('pulsate 1.2s infinite'); display:block; content:"Connected! Listening for your app to log something..."; color:$dashboard_106; }
+    //
+    // &.retrieving-history-log:after  { @include animation('pulsate 1.2s infinite'); display:block; content:"Retrieving Historical Data..."; }
+    // &.loading-records:after         { @include animation('pulsate 1.2s infinite'); display:block; content:"Loading Records..."; }
+    // &.no-historic:after           { @include animation("slowFadeOut 3s forwards"); display:block; content:'No Historical Data Found...'; color:$dashboard_113; }
+
+    thead                           { @include font-size(15px); background:none;
+      tr                            { height:33px;
+        td                          {
+          &:first-child             { @include panel_left_defaults; padding:3px; color:$dashboard_29; vertical-align:bottom; background:none; }
+          &:last-child              { @include panel_right_defaults; padding:8px; background:white;
+            .radio                  { margin-right:18px; }
+
+            .input                  { width:400px; float:left; margin:0px; padding:0px;
+              // &:before              { @include pagodacons(normal, '\004D'); display:inline-block; margin-right:5px; }
+              input                 { display:inline-block; height:17px; width:375px; padding:0px; background:$white; font-size:12px; }
+            }
+
+            #view-more              { position:relative; float:right; padding:2px; cursor:pointer; }
+
+            // This way the log follower keeps its horizontal position even when it gets positioned statically
+            .follow-holder          { display:inline-block; float:right; width:120px; margin-right:10px; }
+            .follow-log             { width:120px; padding:0px; cursor:pointer; overflow:hidden; z-index:1; font-size:12px;
+              &:before              { display:inline-block; float:right; color:$dashboard_49; text-align:center; }
+              // &:after               { @include pagodacons(bold, '\25C9'); @include font-size(68px); display:inline-block; float:right; margin-right:8px; line-height:5px; color:$dashboard_49;  }
+              &:hover               {
+                &:before, &:after   { color:$dashboard_73; }
+              }
+
+              &.locked              {
+                &:before            { content:'Follow Log'; }
+                &:after             { @include border-radius(50%, 50%, 50%, 50%); background:none; }
+                &.active            {
+                  &:before, &:after { color:$dashboard_125; }
+                }
+              }
+
+              &.following           { padding:0px; position:fixed; top:8px;
+                &:before            { content:''; display:none; }
+                &:after             { @include border-radius(50%, 50%, 50%, 50%); width:25px; height:25px; line-height:12px; color:$dashboard_29; background:$dashboard_56; }
+
+                &:hover             { @include border-radius(50px, 50px, 50px, 50px); padding:5px; color:$dashboard_133; background:$dashboard_125;
+                  &:before          { content:'Follow Log'; display:inline-block; margin:0px 8px; color:$dashboard_113; }
+                  &:after           { width:initial; height:initial; line-height:5px; background:none; color:$dashboard_133; }
+                }
+
+                &.active            {
+                  &:before          { }
+                  &:after           { background:$dashboard_125; color:$dashboard_133; }
+
+                  &:hover           { color:$dashboard_29; background:$dashboard_56;
+                    &:before        { content:'Unfollow'; color:$dashboard_29;}
+                    &:after         { background:none; color:$dashboard_29;}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    tbody                           { counter-reset:row-number;
+      tr                            {
+        td                          { border:none;
+          &:first-child             { @include panel_left_defaults; padding:15px 0px; background:$dashboard_29;
+            .entries                { width:100%; margin:0px; /*font-family:$lato;*/
+              .entry                { @include font-size(11px); display:inline-block; width:100%; padding:0px 15px; line-height:15px;
+                & > *               { display:inline-block; }
+                .time               { width:88px; }
+                .service            { }
+              }
+            }
+          }
+          &:last-child              { @include panel_right_defaults; padding:15px 0px; background:$dashboard_64; overflow-x:scroll; overflow-y:hidden;
+            .messages               { display:inline-block; width:100%; margin:0px; /*font-family:$monaco;*/ color:$dashboard_92; letter-spacing:0.5px;
+              .message              { @include font-size(11px); display:block; float:left; width:100%; padding:0px 15px; line-height:15px; white-space:pre;
+                // &:before            { display:inline-block; width:36px; content:counter(row-number) "."; counter-increment:row-number; color:$dashboard_102; }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // disable all displays by default
+  .control-panel                 {.descriptions {.description {@include transition(); display:none; opacity:0;}}}
+  table.log-panel                {
+    thead                        {
+      // streaming/historic
+      .input.filter              {display:none;}
+
+      // streaming/builds
+      .follow-holder             {display:none;}
+
+      // historic
+      #view-more                 {display:none;}
+    }
+
+    tbody                        {
+      // streaming/histroical
+      .entries                   {display:none;}
+    }
+  }
+
+  // when live logs; turn on live log displays
+  &.live                         {
+    .control-panel               {.toggles {.toggle.live {@extend .checked;}}}
+    .descriptions                {.description.live {display:inline-block; opacity:1;}}
+    table.log-panel              {
+      thead                      {.input.filter {display:inline-block;}.follow-holder {display:inline-block;}}
+      tbody                      {.entries{display:inline-block;}}
+    }
+  }
+
+  // when historic logs; turn on historic log displays
+  &.historic                   {
+    .control-panel               {.toggles {.toggle.historic {@extend .checked;}}}
+    .descriptions                {.description.historic {display:inline-block; opacity:1;}}
+    table.log-panel              {
+      thead                      {.input.filter {display:inline-block;} #view-more {display:inline-block;}}
+      tbody                      {.entries{display:inline-block;}}
+    }
+  }
+}

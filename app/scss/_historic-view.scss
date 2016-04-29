@@ -1,4 +1,6 @@
-#apps-logs.historical               {
+$dashboard_14:    #C4C4C4;
+
+#apps-logs.historic                 {
   table.log-panel                   {
     thead                           {
       #view-more                    {
@@ -6,7 +8,7 @@
         &.loading                   { color:$dashboard_14; pointer-events:none;
           &:after                   { content: 'Loading...'; }
         }
-        &.no-historical             { display:none; }
+        &.no-historic               { display:none; }
       }
     }
     tbody                           { }

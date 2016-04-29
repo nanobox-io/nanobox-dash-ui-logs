@@ -5,9 +5,5 @@ window.init = () ->
   statsDataSimultor.createFakeLogProvider()
 
   # Live logs
-  live = new nanobox.Logs "live", $(".live")
-  live.build()
-
-  # Historic
-  historic = new nanobox.Logs "historic", $(".historic")
-  historic.build()
+  logs = new nanobox.Logs $(".logs")
+  logs.build()
