@@ -1,0 +1,72 @@
+- content_for :page_specific_js do
+  :coffeescript
+    new Dashboard.AppLogsView $("#app-logs")
+
+-#
+#app-logs.columns.col_full.twelve{class: "live"}
+  .quickdoc_toggle{data: {quickdoc: "app_logs", heading: "App Logs"}}
+
+  .control-panel
+    .toggles
+      .radio.radio-bottom.toggle.live{data: {toggle: "live"}}
+        .icon
+          %img.shadow-icon{data: {src: "streaming-logs"}}
+        .label.live Live Stream
+      .radio.radio-bottom.toggle.historical{data: {toggle: "historical"}}
+        .icon
+          %img.shadow-icon{data: {src: "historical-logs"}}
+        .label.historical Historical
+      .radio.radio-bottom.toggle.build{data: {toggle: "build"}}
+        .icon
+          %img.shadow-icon{data: {src: "build-logs"}}
+        .label.build Build
+
+    .descriptions
+      %p.description.live Application logs such as stdout, stderr, etc., emitted from your application; The primary source for troubleshooting your application.
+      %p.description.historical A historical representation of the streaming log. Anything not seen during a stream can be found here.
+      %p.description.build Output from our build process, including package installation, and deploy hooks.
+
+
+  -#
+  %table.log-panel.live
+    %thead
+      %tr
+        %td
+          -# placeholder
+
+        %td
+          -# streaming/historical
+          .input.filter
+            %input{placeholder: 'Filter logs', data: {bind: 'AppLogsLiveView.filter'}}
+
+          -# streaming/build
+          .follow-holder
+            .follow-log.locked{data: {'event-click' => 'toggle_follow'}}
+
+          -# historical
+          %button.simple#view-more{data: {'event-click' => 'load_historical_data'}}
+
+          -# depoy
+          .time{data: {source: 'selected_build.created_at | timeAgoInWords'}}
+          .summary{data: {source: 'selected_build.state', 'bind-class' => 'selected_build.state'}}
+          .abort-build{data: {showif: 'selected_build.build_incomplete?', 'event-click' => 'selected_build.abort'}} Abort Build
+
+    %tbody
+      %tr
+        %td
+
+          -# streaming/historical
+          .entries
+            -# added via javascript
+
+          -# build
+          %ul.builds
+            - app.builds.active.each do |build|
+              %li.build{id:build.id, class:build.state}
+                .spinner.arrows
+                .entry= time_ago_in_words(build.created_at)
+
+        -#
+        %td
+          %pre.messages.selectable
+            -# added via javascript

@@ -1,0 +1,44 @@
+doctype html
+html(lang="en")
+  
+  head
+    title Logs
+
+    // build:remove 
+    link(href="stage/css/stage.css", rel="stylesheet")
+    // endbuild
+    
+    // build:css style.css
+    link(href="css/main.css", rel="stylesheet")
+    // endbuild
+
+  body
+    .view.live
+    .view.historic
+        
+    // build:remove 
+    script(src="bower-libs/jquery/dist/jquery.js")
+    script(src="bower-libs/jade/runtime.js")
+    script(src="bower-libs/shadow-icons/rel/app.js")
+    script(src="bower-libs/PubSubJS/src/pubsub.js")
+    script(src="bower-libs/moment/min/moment.min.js")
+    script(src="https://use.typekit.net/cqd5kth.js")
+    // endbuild
+
+    script(type="text/javascript") try{Typekit.load({ async: true });}catch(e){}
+
+    // build:js app.js
+    script(src="js/main.js")
+    // endbuild
+    
+    //- I'm including this for generating test stats 
+    // build:js2 data-shim.js
+    script(src="stage/js/stage.js")
+    // endbuild
+    
+    script(type="text/javascript").
+      init();
+      
+    // build:remove 
+    script(src="http://localhost:35729/livereload.js")
+    // endbuild
