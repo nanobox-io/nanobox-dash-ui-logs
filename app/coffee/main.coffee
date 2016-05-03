@@ -2,7 +2,7 @@ LiveView      = require 'views/live-view'
 HistoricView  = require 'views/historic-view'
 
 #
-mainView      = require 'jade/main-view'
+component      = require 'jade/component'
 
 #
 class Logs
@@ -17,7 +17,7 @@ class Logs
 
   # constructor
   constructor: ($el, @id) ->
-    @$node = $(mainView())
+    @$node = $(component())
     $el.append @$node
 
     # provide default data
@@ -25,8 +25,8 @@ class Logs
     # for metric in metrics
     #   @stats.push {metric: metric, value: 0}
 
-    #
-    # shadowIcons = new pxicons.ShadowIcons()
+    # add svg icons
+    castShadows($(".shadow-parent"))
 
   # build creates a new component based on the @view that is passed in when
   # instantiated
