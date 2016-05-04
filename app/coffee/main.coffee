@@ -16,32 +16,30 @@ class Logs
   $stream:  undefined
 
   # constructor
-  constructor: ($el, @id) ->
+  constructor: ($el, @options) ->
     @$node = $(component())
     $el.append @$node
 
-    # provide default data
-    # @stats = []
-    # for metric in metrics
-    #   @stats.push {metric: metric, value: 0}
-
     # add svg icons
     castShadows($(".shadow-parent"))
+
+    #
+    @options.main = @
 
   # build creates a new component based on the @view that is passed in when
   # instantiated
   build : () ->
 
     #
-    @liveView = new LiveView @$node, @, @id
-    @historicView = new HistoricView @$node, @, @id
+    @liveView = new LiveView @$node, @options
+    @historicView = new HistoricView @$node, @options
 
     #
     @$entries = @$node.find("tbody .entries")
     @$stream = @$node.find("tbody .messages")
 
     #
-    for toggle in @$node.find(".control-panel .toggles .toggle")
+    for toggle in @$node.find(".logs-panel .toggle")
       $(toggle).click (e) =>
 
         #
@@ -53,57 +51,17 @@ class Logs
         @$node.addClass log
 
         #
-        @["#{log}View"].load()
+        @[@currentLog].unload()
+        @currentLog = "#{log}View"
+        @[@currentLog].load()
 
     # load live by default
     @liveView.load()
+    @currentLog = "liveView"
 
-  #
-  load_logs: (logs) =>
-    for log in logs
-      # window.scrollTo(0, document.body.scrollHeight) if @following_log
-      @add_entry("append", @format_entry(log))
-      # @filter_logs()
-
-  #
-  add_entry: (method, entry) =>
-    entry.log = "&nbsp;" if (entry.log.length == 0)
-
-    # if entries.children().length && stream.children().length
-    #   _entries = entries.children().eq(entry.index)
-    #   _stream  = stream.children().eq(entry.index)
-    #   method  = 'after'
-    # else
-    #   _entries = entries
-    #   stream  = stream
-    #   method  = 'append'
-
-    $entry = $("<div class=entry style='#{entry.styles};'>
-        <div class=time>#{entry.short_date_time}</div>
-        <div class=service>#{entry.service}</div>
-      </div>")
-
-    $message = $("<span class='message' style='#{entry.styles};'></span>")
-      .text(entry.message)
-
-    $message.data '$entry', $entry
-
-    # last_entry = log.entries[log.entries.length - 1]
-    # last_entry.styles += " background:#1D4856;"
-
-    @$entries[method] $entry
-    @$stream[method] $message
-
-    # if @message_passes_filter(entry.message)
-    #   $entry.css(display: 'inline-block')
-    #     .animate({ opacity:1 }, { duration:250 })
-    #
-    #   $message.css(display: 'inline-block')
-    #     .animate({opacity:1}, {duration:250})
-    # else
-    #   $entry.css   display:'none', opacity:1
-    #   $message.css display:'none', opacity:1
-
+  # load_logs: (logs) =>
+  #     # window.scrollTo(0, document.body.scrollHeight) if @following_log
+  #     # @filter_logs()
 
   #
   format_entry: (data) =>
@@ -113,10 +71,10 @@ class Logs
     entry.log = data.log
 
     ## example data streams parsed with regex ##
-    # data.log ~= web1.apache[access] 69.92.84.90 - - [03/Dec/2013:19:59:57 +0000] \"GET / HTTP/1.1\" 200 183 \"-\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36\"\n"
-    # data.log ~= storage1.mycustomlog2 69.92.84.90 - - [03/Dec/2013:19:59:57 +0000] \"GET / HTTP/1.1\" 200 183 \"-\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36\"\n"
-    # data.log ~= database1.my2[customlog2] 69.92.84.90 - - [03/Dec/2013:19:59:57 +0000] \"GET / HTTP/1.1\" 200 183 \"-\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36\"\n"
-    # data.log ~= cache.[mycustomlog2] 69.92.84.90 - - [03/Dec/2013:19:59:57 +0000] \"GET / HTTP/1.1\" 200 183 \"-\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36\"\n"
+    # data.log ~= "web1.apache[access] 69.92.84.90 - - [03/Dec/2013:19:59:57 +0000] \"GET / HTTP/1.1\" 200 183 \"-\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36\"\n"
+    # data.log ~= "storage1.mycustomlog2 69.92.84.90 - - [03/Dec/2013:19:59:57 +0000] \"GET / HTTP/1.1\" 200 183 \"-\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36\"\n"
+    # data.log ~= "database1.my2[customlog2] 69.92.84.90 - - [03/Dec/2013:19:59:57 +0000] \"GET / HTTP/1.1\" 200 183 \"-\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36\"\n"
+    # data.log ~= "cache.[mycustomlog2] 69.92.84.90 - - [03/Dec/2013:19:59:57 +0000] \"GET / HTTP/1.1\" 200 183 \"-\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36\"\n"
     #
     # match[1] = web1
     # match[2] = apache[access]
@@ -134,61 +92,11 @@ class Logs
     # set the entry color index to be (processes.length % colors.length)
     entry.styles = "color:#{@_colors[(_.indexOf(@_processes, entry.process)%@_colors.length)]};"
 
-    # add the new entry to the logs entries
-    # order_and_add entry
-
+    #
     entry
-
-  #
-  # order_and_add = (entry) ->
-  #   console.log "ORDER AND ADD", entry
-  #   i = (log.entries.length - 1)
-  #
-  #   i-- while log.entries.at(i)?.time > entry.time
-  #
-  #   entry.index = i
-  #
-  #   log.entries.insertWithIndexes([entry], [i + 1])
-
-    #
-    # @observeFireAndForget @AppLogsIndexView, 'current_log', (current, previous) =>
-    #
-    #   # hide previous log
-    #   if (log_name == previous) && previous != current
-    #     parent.hide()
-    #     @hide_view()
-    #
-    #   # show current log
-    #   if (log_name == current)
-    #     # Dashboard.navigator.pushState( {}, '', Dashboard.get('routes').apps(Dashboard.current_app.get('id')).logs().path() + "?log=#{current}#{window.location.hash}")
-    #     Dashboard.Controller.params.log = current
-    #     Dashboard.navigator.pushState( {}, '', Dashboard.get('routes').apps(Dashboard.current_app.get('id')).logs().path() + "?log=#{Dashboard.Controller.params.log}&deploy=#{Dashboard.Controller.params.deploy}&loc=#{Dashboard.Controller.params.loc}")
-    #     parent.fadeIn => @show_view()
-
-    #
-    # @observeFireAndForget @, 'filter', @filter_logs
-
-    # super
 
   # disconnect all scrolling events when we leave this view
   # viewDidDisappear : () -> @unfollow_log()
-
-  #
-  # filter_logs = () ->
-  #   for m in $('pre.messages').children()
-  #     $m = $ m
-  #     if @message_passes_filter($m.text())
-  #       $m.css display: 'inline-block'
-  #       $m.data('$entry').css display: 'inline-block'
-  #     else
-  #       $m.css display: 'none'
-  #       $m.data('$entry').css display: 'none'
-
-  #
-  # message_passes_filter = (message) ->
-  #   filter = @get('filter') || ''
-  #
-  #   message.indexOf(filter) >= 0
 
   #
   # follow_log = () ->
@@ -246,15 +154,19 @@ class Logs
     @empty()
 
   #
-  # update_status = ( node, status ) ->
-  #   @clear_status node
-  #   node.addClass status
-  #   @currentStatus = status
+  update_status: (status) =>
+
+    $target = @$node.find("table")
+
+    $target.removeClass @currentStatus
+    $target.addClass status
+
+    @currentStatus = status
 
   #
-  # clear_status = ( node ) ->
-  #   node.removeClass @currentStatus
-  #   @currentStatus = ''
+  clear_status: =>
+    @$node.find("table").removeClass @currentStatus
+    @currentStatus = ''
 
 #
 window.nanobox ||= {}

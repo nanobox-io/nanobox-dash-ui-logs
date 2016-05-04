@@ -1,55 +1,59 @@
+//- img.shadow-icon(data-src = "log-eye")
+
+//- img.shadow-icon(data-src = "log-x")
+
+
 //-
-#app-logs.columns.col_full.twelve(class = "live")
+#app-logs(class = "live")
   //- .quickdoc_toggle(data: (quickdoc: "app_logs", heading: "App Logs"))
-
-  .control-panel
-    .toggles.shadow-parent
-      .radio.radio-bottom.toggle.live(data-toggle = "live")
-        .icon
-          img.shadow-icon(data-src = "live")
-        .label.live Live Stream
-      .radio.radio-bottom.toggle.historic(data-toggle = "historic")
-        .icon
-          img.shadow-icon(data-src = "historical")
-          img.shadow-icon(data-src = "deploy")
-          img.shadow-icon(data-src = "log-eye")
-          img.shadow-icon(data-src = "log-magnify")
-          img.shadow-icon(data-src = "log-x")
-        .label.historic Historical
-
-    //- 
-    .descriptions
-      p.description.live Application logs such as stdout, stderr, etc., emitted from your application; The primary source for troubleshooting your application.
-      p.description.historic A historic representation of the streaming log. Anything not seen during a stream can be found here.
       
   //-
-  table.log-panel.live
+  table.log-display.live
+  
+    //- 
     thead
-      tr
-        td
-          //- placeholder
+    
+      //- 
+      tr.logs-panel
+        td.placeholder
+        td.shadow-parent
+          .radio.radio-bottom.toggle.live(data-toggle = "live")
+            .icon
+              img.shadow-icon(data-src = "live")
+            .label.live Live Stream
+          .radio.radio-bottom.toggle.historic(data-toggle = "historic")
+            .icon
+              img.shadow-icon(data-src = "historical")
+            .label.historic Historical
 
+          p.description.live Application logs such as stdout, stderr, etc., emitted from your application; The primary source for troubleshooting your application.
+          p.description.historic A historic representation of the streaming log. Anything not seen during a stream can be found here.
+          
+      //- 
+      tr.log-panel
+        td.placeholder
         td
+          
           //- streaming/historic
-          .input.filter
-            input(placeholder: 'Filter logs')
+            .input.filter.shadow-parent
+              img.shadow-icon(data-src = "log-magnify")
+              input(placeholder = "Filter logs")
 
           //- streaming/build
-          .follow-holder
-            .follow-log.locked
+          #follow-log.locked
 
-          //- historic
-          button.simple#view-more
+          //- historic; value handled via javascript
+          #view-more
 
+    //- 
     tbody
       tr
         td
-
-          //- streaming/historic
           .entries
             //- added via javascript
 
         //-
         td
+          #status
           pre.messages.selectable
             //- added via javascript

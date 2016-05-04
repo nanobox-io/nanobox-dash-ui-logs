@@ -1,14 +1,5 @@
 // @import 'historic-view';
 
-$app_width:  996px;
-$columns:    12;
-$col_gutter: 24px;
-$col_width:  ($app_width/$columns);
-
-$panel_min_height:  400px;
-$panel_left_width:  175px;
-$panel_right_width: 800px;
-
 $white:           #FFFFFF;
 $black:           #000000;
 
@@ -48,198 +39,8 @@ $dashboard_137:   #232323;
 
 *                                       {
   @include box-sizing();
-  @include selection-color($dashboard_69);
-
   margin:0px; padding:0px; border:none; outline:none; text-decoration:none; list-style-type:none; list-style-position:outside; vertical-align:top; border-collapse:collapse; resize:none; background:none;
-
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  // -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 }
-
-.row                                    { position:relative; display:inline-block; width:100%; margin:0px 0px 8px 0px; }
-
-.columns                                { display:inline-block; position:relative; float:left;
-  // &:not(:last-child)                    { margin-right:$col_gutter; }
-
-  &.one                                 { width:((1*$col_width) - $col_gutter); }
-  &.two                                 { width:((2*$col_width) - $col_gutter); }
-  &.three                               { width:((3*$col_width) - $col_gutter); }
-  &.four                                { width:((4*$col_width) - $col_gutter); }
-  &.five                                { width:((5*$col_width) - $col_gutter); }
-  &.six                                 { width:((6*$col_width) - $col_gutter); }
-  &.seven                               { width:((7*$col_width) - $col_gutter); }
-  // &.eight                               { width:((8*$col_width) - $col_gutter); }
-  &.eight                               { width:630px; }
-  &.nine                                { width:((9*$col_width) - $col_gutter); }
-  &.ten                                 { width:((10*$col_width) - $col_gutter); }
-  &.eleven                              { width:((11*$col_width) - $col_gutter); }
-  &.twelve                              { width:((12*$col_width) ); }
-
-  &.col_centered                        { display:block; float:none; margin:0 auto; }
-  &.col_right                           { float:right; }
-  &.col_full                            { width:100%; }
-
-  //
-  .row {&:not(:first-child)             {margin-top:50px;}}
-}
-
-// sometimes in batman you need extra markup to bind to, this helps to makes those
-// less obtrusive
-.batman                                 { width:inherit;
-  & > *                                 {}
-
-  &.display                             {}
-  &.modal                               { display:inline; }
-  &.partial                             { display:inline; }
-  &.view                                {}
-  &.yield                               {}
-}
-
-.cursor                                 { cursor:pointer; }
-.noclick                                { pointer-events:none; }
-.truncate                               { @include truncate(); }
-
-
-$background_gray: $dashboard_9;
-
-html                                    { background:$background_gray;  font-weight:bold;
-  body                                  { @include font-size(12px); width:$app_width; margin:0 auto; /*font-family:$museo;*/ font-weight:700; @include antiAlias(); color:$black; background:inherit; padding: 0 0 30px 0;
-    header, nav, footer                 { position:relative; }
-
-    h1, h2, h3, h4, h5, h6              { position:relative; display:block; width:100%; margin-bottom:24px; /*font-family:$museo;*/ font-weight: normal; }
-    h1                                  { @include font-size(21px); }
-    h2                                  { @include font-size(19px); padding-bottom:18px; color:$dashboard_137; border-bottom:1px solid $dashboard_14; font-weight:bold; @include antiAlias(); }
-    h3                                  { @include font-size(16px); padding-bottom:18px; color:$dashboard_27; border-bottom:1px solid $dashboard_14; }
-    h4                                  { @include font-size(14px); }
-    h5                                  { @include font-size(13px); color:$dashboard_20; }
-    h6                                  { @include font-size(12px); margin-bottom:5px; color:$dashboard_15; }
-
-    ul                                  { display:inline-block;
-      li                                { position:relative; width:inherit; }
-    }
-
-    a                                   { display:inline-block; color:$dashboard_77;
-      &:hover                           { color:$dashboard_73; }
-    }
-    p                                   { @include font-size(14px); margin-bottom:12px; color:$dashboard_23; line-height:28px; }
-
-    .code                               { @include font-size(12px); padding:18px; /*font-family:$monaco;*/ color:$dashboard_92; line-height:20px; background:$dashboard_64;
-      textarea, textarea:focus          { color:$dashboard_92; background:$dashboard_64; }
-    }
-    .italic                             { font-style:italic; }
-  }
-}
-
-header.lined                            { width:100%; min-height:50px; border-bottom:1px solid $dashboard_14; margin-bottom:40px;
-  h2                                    { float:left; width:initial; border:none; padding:2px 0px 0px 0px; margin:0px; }
-  .right                                { float:right;  }
-}
-
-hr                                      { display:inline-block; width:100%; height:1px; background:$dashboard_14; }
-
-.selectable, .selectable *, input, textarea  {
-    -webkit-touch-callout: text;
-    -webkit-user-select: text;
-    -khtml-user-select: text;
-    -moz-user-select: text;
-    -ms-user-select: text;
-    user-select: text;
-    font-weight: bold;
-}
-button { font-weight:bold; }
-
-
-form                    { display:inline-block; width:100%;
-  fieldset              { display:inline-block; width:100%; margin-bottom:16px;
-    // p                   { color:$dashboard_58; }
-
-    // .dropdown           { color:$dashboard_64; }
-
-    .input              {
-      label             {}
-      input             {}
-      .error            {}
-    }
-  }
-}
-
-.input                            {@include font-size(15px); display:inline-block; position:relative; width:100%; margin-bottom:16px; color:$dashboard_100;
-  &:focus                         { }
-  & > *                           {display:inline-block;}
-
-  // &:not(.disabled, .search)      { border:5px solid $dashboard_29; }
-
-  //
-  label                           {@include font-size(13px); width:100%; margin-bottom:5px; color:$dashboard_15;}
-
-  // INITIAL
-  input                           {width:100%; height:41px; padding:9px 10px 6px 10px; font-size:15px; line-height:18px; color:inherit; background:$dashboard_2; /*font-family:$museo;*/ @include transition(all, 0.08s); /*@include placeholderTxtColor($dashboard_36);*/
-    &:valid                       {background:$dashboard_2; color:$dashboard_73; @include transition(color, 1s);}
-    &:focus                       {background:white; color:$dashboard_30; /*@include placeholderTxtColor($dashboard_11);*/ @include transition(background, 0s);}
-  }
-
-  //
-  &.field_with_errors             {
-    input                         {outline:1px solid $dashboard_126;}
-    .error                        {@include font-size(11px); margin:2px 0px 8px 0px; color:$dashboard_126;}
-  }
-
-  // individual .npt-* styles are found in their respective files, these include:
-  //  - inputs/_email
-  //  - inputs/_password
-  //  - inputs/_submit
-  //  - inputs/_text
-
-  // STATES
-  // &.disabled                      { background:$dashboard_47; background:none;
-  //   input                         { color:$dashboard_100; background: none; }
-  // }
-
-  // &.inactive                      { border:1px solid $white; background:$dashboard_9;
-  //   input                         { color:$dashboard_23; }
-  // }
-
-  // &.white                         { background:$white; color:$dashboard_92; }
-  // &.gray                          { background:$dashboard_9;
-  //   input, input:valid            { border: 1px solid $dashboard_73; }
-  //   &.errored input               { border: 1px solid $dashboard_126; }
-  // }
-}
-
-//
-.textarea                         { @include font-size(15px); position:relative; width:100%; color:$dashboard_77; background:$dashboard_2; overflow:hidden;
-  &.code                          { padding:0px; }
-
-  &.error                         { outline:1px solid $dashboard_126; }
-
-  textarea                        { @include font-size(inherit, inherit); width:100%; height:100%; padding:10px; font-family:inherit; color:inherit; background:$white; /*@include placeholderTxtColor($dashboard_11);*/
-    &:focus                       { background:white; color:$dashboard_30; /*@include placeholderTxtColor($dashboard_11);*/ }
-  }
-}
-
-//
-.dark-night                       {
-  .input                          { margin:0px; background:none;
-    &.disabled                    { background:$dashboard_47; background:none;
-      input                       { color:$dashboard_101; background: $dashboard_65; }
-    }
-  }
-  input                           { color:$dashboard_73; background:$dashboard_64; /*@include placeholderTxtColor($dashboard_97);*/
-    &:valid                       { color:$dashboard_73; background:$dashboard_64; }
-    &:focus                       { @include transition(all, 0.09s); background:$dashboard_90; color:white; /*@include placeholderTxtColor($dashboard_99);*/}
-  }
-}
-
-// .roles                            {
-//   .input                          { background:none; }
-//   input, input:valid              { background:$dashboard_41; @include placeholderTxtColor($dashboard_97); color:white;
-//     &:focus                       { @include transition(all, 0.09s); background:$dashboard_60; color:$dashboard_72; @include placeholderTxtColor($dashboard_51);}
-//   }
-// }
 
 .radio                      { position:relative; display:inline-block; color:inherit; cursor:pointer;
   input                     { display:none; }
@@ -258,62 +59,6 @@ form                    { display:inline-block; width:100%;
     }
   }
 
-
-  // radio-dark
-  &.radio-dark              {
-    .label                  {
-      &:before, &:after     { background:$dashboard_29; }
-    }
-
-    &.checked               {
-      .label                {
-        &:before, &:after   { border-color:$dashboard_29; background:$dashboard_73;}
-      }
-    }
-  }
-
-  // radio-flat
-  &.radio-flat              {
-    .label                  {
-      &:before, &:after     { @include drop-shadow(0px, 0px, 0px, $dashboard_73, 1px); }
-    }
-
-    &.checked               {
-      .label                {
-        &:before, &:after   { border-color:$white; background:$dashboard_73; }
-      }
-    }
-  }
-
-  // NOTE: maybe consider using the same pseudo element for each type of radio
-  // to allow for more flexibility if the other is needed (see _items.scss for
-  // an example)
-
-
-  // radio left
-  &.radio-left              {
-    .label                  {
-      &:before              { top:-2px; left:-5px; }
-      &:after               { display:none; }
-    }
-  }
-
-  // radio right
-  &.radio-right             {
-    .label                  {
-      &:before              { display:none; }
-      &:after               { top:-2px; right:-5px; }
-    }
-  }
-
-  // radio top
-  &.radio-top               { width:100%; text-align:center;
-    .label                  { width:100%;
-      &:before              { top:0px; right:0px; }
-      &:after               { display:none; }
-    }
-  }
-
   // radio bottom
   &.radio-bottom            { width:100%; text-align:center;
     .label                  { width:100%;
@@ -323,39 +68,12 @@ form                    { display:inline-block; width:100%;
   }
 }
 
-table                       { width:100%; border:none; background:none; color:$dashboard_25;
-  thead                     { background:$dashboard_25;
-    tr                      {
-      th                    { padding:8px; color:$white; border:1px solid $dashboard_27;
-        &.cost              { text-align:center; }
-      }
-    }
-  }
-  tbody                     { background:$dashboard_4;
-    tr                      { background:none;
-      &:nth-of-type(even)   { background:inherit; }
-      td                    { padding:8px; border:1px solid $dashboard_11;
-        &.cost              { background:$white; text-align:center; }
-      }
-    }
-  }
-  tfoot                     { background:none;
-    tr                      {
-      td                    { padding:8px;
-        &.cost              { @include font-size(14px); padding:12px; text-align:center; border:1px solid $dashboard_11; background:$white; }
-        &.grand             { @include font-size(14px); padding:12px; text-align:center; color:$white; border:1px solid $dashboard_27; background:$dashboard_25; }
-      }
-    }
-  }
-}
-
-
-// @import "logs/*";
-
+$panel_left_width:  175px;
+$panel_right_width: 800px;
 @mixin panel_left_defaults          { min-width:$panel_left_width; width:$panel_left_width; max-width:$panel_left_width; }
 @mixin panel_right_defaults         { min-width:$panel_right_width; width:$panel_right_width; max-width:$panel_right_width; }
 
-#app-logs                           {display:flex; flex-direction:column; width:1000px;
+#app-logs                           {
 
   // checked styles
   .checked                          {pointer-events:none;
@@ -363,55 +81,61 @@ table                       { width:100%; border:none; background:none; color:$d
     .icon svg *                     {stroke:$dashboard_79;}
   }
 
-  .quickdoc_toggle                  {top:75px; right:0px;}
-
   //
-  .control-panel                    {display:flex; align-self:flex-end; width:$panel_right_width;
+  table.log-display                   {
+    & > *                             {display:inline-table;}
 
-    .toggles                        {display:flex;
-      .radio                        {width:125px; border-right:1px solid $dashboard_11;
-        .icon                       {height:50px; svg {@include align('vertical');}}
-        &:hover                     {.label {color:$dashboard_73;} .icon svg * {stroke: $dashboard_73;}}
-      }
-    }
 
-    .descriptions                   {
-      .description                  {margin:0px; line-height:22px;}
-    }
-  }
+    // 
+    #status                           {@include align("horizontal"); @include font-size(13px); display:none; z-index:1; position:absolute; top:150px; padding:5px 10px; text-align:center; background:$dashboard_64;}
+    #status:before                    {content:""; color:$dashboard_73;}
+    &.api-failed             #status  {display:inline-block; &:before {/*@include animation('pulsate 1.2s infinite');*/ display:block; content:"Unable to communicate with the nanobox api, please try again."; color:$dashboard_129;}}
+    &.communication-error    #status  {display:inline-block; &:before {/*@include animation('pulsate 1.2s infinite');*/ display:block; content:"The nanobox api failed unexpectedly, give us a minute and try again."; color:$dashboard_129;}}
+    &.connecting-live        #status  {display:inline-block; &:before {/*@include animation('pulsate 1.2s infinite');*/ display:block; content:"Connecting Live Stream...";}}
+    &.awaiting-data          #status  {display:inline-block; &:before {/*@include animation('pulsate 1.2s infinite');*/ display:block; content:"Connected! Listening for your app to log something..."; color:$dashboard_106;}}
+    &.retrieving-history-log #status  {display:inline-block; &:before {/*@include animation('pulsate 1.2s infinite');*/ display:block; content:"Retrieving Historical Data...";}}
+    &.loading-records        #status  {display:inline-block; &:before {/*@include animation('pulsate 1.2s infinite');*/ display:block; content:"Loading Records...";}}
+    &.no-historic            #status  {display:inline-block; &:before {/*@include animation("slowFadeOut 3s forwards");*/ display:block; content:'No Historical Data Found...'; color:$dashboard_113;}}
 
-  //
-  table.log-panel                   {height:$panel_min_height;
-    &:after                         {@include align('horizontal'); @include font-size(13px); display:none; content:""; position: absolute; top:200px; left:58%; z-index:1; width:auto; padding:8px; color:$dashboard_73; text-align:center; background:$dashboard_64; }
+    td                                {position:relative;}
 
-    // &.api-failed:after              { @include animation('pulsate 1.2s infinite'); display:block; content:"Unable to communicate with the nanobox api, please try again."; color:$dashboard_129; }
-    // &.communication-error:after     { @include animation('pulsate 1.2s infinite'); display:block; content:"The nanobox api failed unexpectedly, give us a minute and try again."; color:$dashboard_129; }
-    //
-    // &.connecting-live:after         { @include animation('pulsate 1.2s infinite'); display:block; content:"Connecting Live Stream..."; }
-    // &.awaiting-data:after           { @include animation('pulsate 1.2s infinite'); display:block; content:"Connected! Listening for your app to log something..."; color:$dashboard_106; }
-    //
-    // &.retrieving-history-log:after  { @include animation('pulsate 1.2s infinite'); display:block; content:"Retrieving Historical Data..."; }
-    // &.loading-records:after         { @include animation('pulsate 1.2s infinite'); display:block; content:"Loading Records..."; }
-    // &.no-historic:after           { @include animation("slowFadeOut 3s forwards"); display:block; content:'No Historical Data Found...'; color:$dashboard_113; }
+    thead                             {@include font-size(15px);
+      tr                              {
 
-    thead                           { @include font-size(15px); background:none;
-      tr                            { height:33px;
-        td                          {
-          &:first-child             { @include panel_left_defaults; padding:3px; color:$dashboard_29; vertical-align:bottom; background:none; }
-          &:last-child              { @include panel_right_defaults; padding:8px; background:white;
-            .radio                  { margin-right:18px; }
+        //
+        td.placeholder                {@include panel_left_defaults;}
 
-            .input                  { width:400px; float:left; margin:0px; padding:0px;
-              // &:before              { @include pagodacons(normal, '\004D'); display:inline-block; margin-right:5px; }
-              input                 { display:inline-block; height:17px; width:375px; padding:0px; background:$white; font-size:12px; }
+        //
+        &.logs-panel                  {
+          td:not(.placeholder)        {@include panel_right_defaults; display:flex; align-items:center; margin:25px 0px; color:$dashboard_23;
+            .radio                    {@include font-size(14px); flex:0 1 20%; color:$dashboard_20; border-right:1px solid $dashboard_11;
+              .icon                   {margin-bottom:8px;}
+              &:hover                 {.label {color:$dashboard_73;} .icon svg * {stroke: $dashboard_73;}}
+            }
+            .description              {@include font-size(14px, 22px); flex:0 1 60%; padding:10px 20px;}
+          }
+        }
+
+        //
+        &.log-panel                   {
+          td:not(.placeholder)        {@include panel_right_defaults; padding:8px; height:33px; background:$white;
+            // .radio                  { margin-right:18px; }
+
+            .input                    {display:flex; align-items:center; width:75%; float:left; margin:0px; padding:0px;
+              svg                     {margin-right:5px; transform:scale(0.8);
+                path                  {fill:$dashboard_79;}
+              }
+              input                   {@include font-size(13px); display:inline-block; width:90%; padding:0px; background:$white;}
             }
 
-            #view-more              { position:relative; float:right; padding:2px; cursor:pointer; }
+            #view-more                {@include font-size(12px); position:relative; float:right; padding:2px; cursor:pointer; color:$dashboard_49;
+              &:before                {content:"View More";}
+              &.loading               {pointer-events:none; &:before {content:"Loading...";}}
+              &.empty                 {display:none;}
+            }
 
-            // This way the log follower keeps its horizontal position even when it gets positioned statically
-            .follow-holder          { display:inline-block; float:right; width:120px; margin-right:10px; }
-            .follow-log             { width:120px; padding:0px; cursor:pointer; overflow:hidden; z-index:1; font-size:12px;
-              &:before              { display:inline-block; float:right; color:$dashboard_49; text-align:center; }
+            #follow-log               {@include font-size(12px); position:relative; float:right; padding:2px; cursor:pointer; color:$dashboard_49;
+              &:before                {display:inline-block; float:right; color:$dashboard_49; text-align:center;}
               // &:after               { @include pagodacons(bold, '\25C9'); @include font-size(68px); display:inline-block; float:right; margin-right:8px; line-height:5px; color:$dashboard_49;  }
               &:hover               {
                 &:before, &:after   { color:$dashboard_73; }
@@ -450,23 +174,18 @@ table                       { width:100%; border:none; background:none; color:$d
       }
     }
 
-    tbody                           { counter-reset:row-number;
+    //
+    tbody                           {min-height:400px;
       tr                            {
-        td                          { border:none;
-          &:first-child             { @include panel_left_defaults; padding:15px 0px; background:$dashboard_29;
-            .entries                { width:100%; margin:0px; /*font-family:$lato;*/
-              .entry                { @include font-size(11px); display:inline-block; width:100%; padding:0px 15px; line-height:15px;
-                & > *               { display:inline-block; }
-                .time               { width:88px; }
-                .service            { }
-              }
+        td                          {border:none;
+          &:first-child             {@include panel_left_defaults; padding:15px 0px; background:$dashboard_29;
+            .entries                {width:100%; margin:0px;
+              .entry                {@include font-size(11px); display:flex; justify-content:space-between; width:100%; padding:0px 15px; line-height:15px;}
             }
           }
-          &:last-child              { @include panel_right_defaults; padding:15px 0px; background:$dashboard_64; overflow-x:scroll; overflow-y:hidden;
-            .messages               { display:inline-block; width:100%; margin:0px; /*font-family:$monaco;*/ color:$dashboard_92; letter-spacing:0.5px;
-              .message              { @include font-size(11px); display:block; float:left; width:100%; padding:0px 15px; line-height:15px; white-space:pre;
-                // &:before            { display:inline-block; width:36px; content:counter(row-number) "."; counter-increment:row-number; color:$dashboard_102; }
-              }
+          &:last-child              {@include panel_right_defaults; padding:15px 0px; background:$dashboard_64; overflow-x:scroll; overflow-y:hidden;
+            .messages               {width:100%; margin:0px; color:$dashboard_92; letter-spacing:0.5px;
+              .message              {@include font-size(11px, 15px); display:block; float:left; width:100%; padding:0px 15px; font-family:$monaco; white-space:pre;}
             }
           }
         }
@@ -474,41 +193,42 @@ table                       { width:100%; border:none; background:none; color:$d
     }
   }
 
+  //
   // disable all displays by default
-  .control-panel                 {.descriptions {.description {@include transition(); display:none; opacity:0;}}}
-  table.log-panel                {
-    thead                        {
+  .logs-panel                   {.description {@include transition(); display:none; opacity:0;}}
+  table.log-display             {
+    thead                       {
       // streaming/historic
-      .input.filter              {display:none;}
+      .input.filter             {display:none;}
 
       // streaming/builds
-      .follow-holder             {display:none;}
+      #follow-log               {display:none;}
 
       // historic
-      #view-more                 {display:none;}
+      #view-more                {display:none;}
     }
 
-    tbody                        {
+    tbody                       {
       // streaming/histroical
-      .entries                   {display:none;}
+      .entries                  {display:none;}
     }
   }
 
   // when live logs; turn on live log displays
   &.live                         {
-    .control-panel               {.toggles {.toggle.live {@extend .checked;}}}
-    .descriptions                {.description.live {display:inline-block; opacity:1;}}
-    table.log-panel              {
-      thead                      {.input.filter {display:inline-block;}.follow-holder {display:inline-block;}}
+    .logs-panel                  {.toggle.live {@extend .checked;}}
+    .description.live            {display:inline-block; opacity:1;}
+    table.log-display            {
+      thead                      {.input.filter {display:inline-block;} #follow-log {display:inline-block;}}
       tbody                      {.entries{display:inline-block;}}
     }
   }
 
   // when historic logs; turn on historic log displays
-  &.historic                   {
-    .control-panel               {.toggles {.toggle.historic {@extend .checked;}}}
-    .descriptions                {.description.historic {display:inline-block; opacity:1;}}
-    table.log-panel              {
+  &.historic                     {
+    .logs-panel                  {.toggle.historic {@extend .checked;}}
+    .description.historic        {display:inline-block; opacity:1;}
+    table.log-display            {
       thead                      {.input.filter {display:inline-block;} #view-more {display:inline-block;}}
       tbody                      {.entries{display:inline-block;}}
     }
