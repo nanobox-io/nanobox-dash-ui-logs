@@ -1,8 +1,3 @@
-// @import 'historic-view';
-
-$white:           #FFFFFF;
-$black:           #000000;
-
 $dashboard_2:     #F3F3F3;
 $dashboard_4:     #F0EFEF;
 $dashboard_9:     #DFDFDF;
@@ -37,68 +32,35 @@ $dashboard_129:   #E21954;
 $dashboard_133:   #8F394D;
 $dashboard_137:   #232323;
 
+//
 *                                       {
   @include box-sizing();
   margin:0px; padding:0px; border:none; outline:none; text-decoration:none; list-style-type:none; list-style-position:outside; vertical-align:top; border-collapse:collapse; resize:none; background:none;
 }
 
-.radio                      { position:relative; display:inline-block; color:inherit; cursor:pointer;
-  input                     { display:none; }
-
-  .label                    { display:inline-block; margin:0px;
-    &:before, &:after       { @include drop-shadow(0, 1px, 2px, $dashboard_18); @include border-radius(100%, 100%, 100%, 100%); content:""; display:inline-block; position:relative; width:14px; height:14px; background:$white; }
-  }
-
-  &:hover                   {
-    .label                  { color:$dashboard_79; }
-  }
-
-  &.checked                 {
-    .label                  { display:inline-block; margin:0px;
-      &:before, &:after     { width:8px; height:8px; border:3px solid white; background:$dashboard_73; }
-    }
-  }
-
-  // radio bottom
-  &.radio-bottom            { width:100%; text-align:center;
-    .label                  { width:100%;
-      &:before              { display:none; }
-      &:after               { display:block; position:relative; bottom:-5px; margin:0 auto; }
-    }
-  }
-}
-
-$panel_left_width:  175px;
-$panel_right_width: 800px;
-@mixin panel_left_defaults          { min-width:$panel_left_width; width:$panel_left_width; max-width:$panel_left_width; }
-@mixin panel_right_defaults         { min-width:$panel_right_width; width:$panel_right_width; max-width:$panel_right_width; }
-
-#app-logs                           {
-
-  // checked styles
-  .checked                          {pointer-events:none;
-    .label                          {color:$dashboard_79;}
-    .icon svg *                     {stroke:$dashboard_79;}
-  }
+//
+.nanobox-dash-ui-logs                 {
+  @mixin panel_left_defaults          {min-width:175px; width:175px; max-width:175px;}
+  @mixin panel_right_defaults         {min-width:800px; width:800px; max-width:800px;}
 
   //
   table.log-display                   {
     & > *                             {display:inline-table;}
 
+    //
+    td                                {position:relative;}
 
-    // 
+    //
     #status                           {@include align("horizontal"); @include font-size(13px); display:none; z-index:1; position:absolute; top:150px; padding:5px 10px; text-align:center; background:$dashboard_64;}
     #status:before                    {content:""; color:$dashboard_73;}
-    &.api-failed             #status  {display:inline-block; &:before {/*@include animation('pulsate 1.2s infinite');*/ display:block; content:"Unable to communicate with the nanobox api, please try again."; color:$dashboard_129;}}
-    &.communication-error    #status  {display:inline-block; &:before {/*@include animation('pulsate 1.2s infinite');*/ display:block; content:"The nanobox api failed unexpectedly, give us a minute and try again."; color:$dashboard_129;}}
+    &.communication-error    #status  {display:inline-block; &:before {/*@include animation('pulsate 1.2s infinite');*/ display:block; content:"Unable to retrieve logs. Please try again in a moment."; color:$dashboard_129;}}
     &.connecting-live        #status  {display:inline-block; &:before {/*@include animation('pulsate 1.2s infinite');*/ display:block; content:"Connecting Live Stream...";}}
     &.awaiting-data          #status  {display:inline-block; &:before {/*@include animation('pulsate 1.2s infinite');*/ display:block; content:"Connected! Listening for your app to log something..."; color:$dashboard_106;}}
     &.retrieving-history-log #status  {display:inline-block; &:before {/*@include animation('pulsate 1.2s infinite');*/ display:block; content:"Retrieving Historical Data...";}}
     &.loading-records        #status  {display:inline-block; &:before {/*@include animation('pulsate 1.2s infinite');*/ display:block; content:"Loading Records...";}}
     &.no-historic            #status  {display:inline-block; &:before {/*@include animation("slowFadeOut 3s forwards");*/ display:block; content:'No Historical Data Found...'; color:$dashboard_113;}}
 
-    td                                {position:relative;}
-
+    //
     thead                             {@include font-size(15px);
       tr                              {
 
@@ -107,67 +69,109 @@ $panel_right_width: 800px;
 
         //
         &.logs-panel                  {
-          td:not(.placeholder)        {@include panel_right_defaults; display:flex; align-items:center; margin:25px 0px; color:$dashboard_23;
-            .radio                    {@include font-size(14px); flex:0 1 20%; color:$dashboard_20; border-right:1px solid $dashboard_11;
-              .icon                   {margin-bottom:8px;}
-              &:hover                 {.label {color:$dashboard_73;} .icon svg * {stroke: $dashboard_73;}}
+          td:not(.placeholder)        {@include panel_right_defaults; display:flex; align-items:center; margin:25px 0px; color:$dashboard_23;}
+
+          //
+          .toggle                     {@include font-size(14px); flex:0 1 20%; color:$dashboard_20; border-right:1px solid $dashboard_11; text-align:center; cursor:pointer;
+            svg                       {margin-bottom:8px;}
+
+            .label                    {display:inline-block; width:100%; margin:0px;
+              &:before, &:after       {@include drop-shadow(0, 1px, 2px, $dashboard_18); @include border-radius(100%, 100%, 100%, 100%); content:""; display:inline-block; position:relative; width:14px; height:14px; background:$white;}
+              &:before                {display:none;}
+              &:after                 {display:block; position:relative; bottom:-5px; margin:0 auto;}
             }
-            .description              {@include font-size(14px, 22px); flex:0 1 60%; padding:10px 20px;}
+
+            //
+            &:hover                   {.label {color:$dashboard_73;} svg * {stroke: $dashboard_73;}}
+
+            //
+            &.checked                 {pointer-events:none;
+              .label                  {color:$dashboard_79;
+                &:before, &:after     {width:8px; height:8px; border:3px solid white; background:$dashboard_73;}
+              }
+              svg *                   {stroke:$dashboard_79;}
+            }
           }
+
+          //
+          .description                {@include font-size(14px, 22px); flex:0 1 60%; padding:10px 20px;}
         }
 
         //
         &.log-panel                   {
-          td:not(.placeholder)        {@include panel_right_defaults; padding:8px; height:33px; background:$white;
-            // .radio                  { margin-right:18px; }
+          td:not(.placeholder)        {@include panel_right_defaults; padding:8px; height:33px; background:$white;}
 
-            .input                    {display:flex; align-items:center; width:75%; float:left; margin:0px; padding:0px;
-              svg                     {margin-right:5px; transform:scale(0.8);
-                path                  {fill:$dashboard_79;}
-              }
-              input                   {@include font-size(13px); display:inline-block; width:90%; padding:0px; background:$white;}
+          //
+          #filter-logs                {display:flex; align-items:center; width:75%; float:left; margin:0px; padding:0px;
+            svg                       {margin-right:5px; transform:scale(0.8); path {fill:$dashboard_79;}}
+            input                     {@include font-size(13px); display:inline-block; width:90%; padding:0px; background:$white;}
+          }
+
+          //
+          #follow-logs                {@include font-size(12px); position:relative; float:right; padding:2px; cursor:pointer; color:$dashboard_49;
+            &:before                  {display:inline-block; float:right; color:$dashboard_49; text-align:center;}
+            svg                       {position:relative; top:1px; left:-5px; transform:scale(0.95);
+              path                    {stroke:$dashboard_49;}
+              circle                  {fill:$dashboard_49;}
             }
 
-            #view-more                {@include font-size(12px); position:relative; float:right; padding:2px; cursor:pointer; color:$dashboard_49;
-              &:before                {content:"View More";}
-              &.loading               {pointer-events:none; &:before {content:"Loading...";}}
-              &.empty                 {display:none;}
+            //
+            &:hover                   {
+              &:before                {color:$dashboard_73;}
+              svg                     {path {stroke:$dashboard_73;} circle {fill:$dashboard_73;}}
             }
 
-            #follow-log               {@include font-size(12px); position:relative; float:right; padding:2px; cursor:pointer; color:$dashboard_49;
-              &:before                {display:inline-block; float:right; color:$dashboard_49; text-align:center;}
-              // &:after               { @include pagodacons(bold, '\25C9'); @include font-size(68px); display:inline-block; float:right; margin-right:8px; line-height:5px; color:$dashboard_49;  }
-              &:hover               {
-                &:before, &:after   { color:$dashboard_73; }
+            //
+            &.locked                  {
+              &:before                {content:'Follow Log';}
+              &.active                {
+                &:before              {color:$dashboard_125;}
+                svg                   {path {stroke:$dashboard_125;} circle {fill:$dashboard_125;}}
+              }
+            }
+
+            //
+            &.following               {padding:0px; position:fixed; top:8px;
+              &:before                {content:''; display:none;}
+              svg                     {path {stroke:$dashboard_29;} circle {fill:$dashboard_29;}}
+
+              //
+              &:hover                 {@include border-radius(50px, 50px, 50px, 50px); padding:5px; color:$dashboard_133; background:$dashboard_125;
+                &:before              {content:'Follow Log'; display:inline-block; margin:0px 5px; color:$dashboard_113;}
+                svg                   {left:0px; path {stroke:$dashboard_133;} circle {fill:$dashboard_133;}}
               }
 
-              &.locked              {
-                &:before            { content:'Follow Log'; }
-                &:after             { @include border-radius(50%, 50%, 50%, 50%); background:none; }
-                &.active            {
-                  &:before, &:after { color:$dashboard_125; }
+              //
+              &.active                {
+                svg                   {path {stroke:$dashboard_133;} circle {fill:$dashboard_133;}}
+                &:hover               {color:$dashboard_29; background:$dashboard_56;
+                  &:before            {content:'Unfollow'; color:$dashboard_29;}
+                  svg                 {path {stroke:$dashboard_29;} circle {fill:$dashboard_29;}}
                 }
               }
+            }
+          }
 
-              &.following           { padding:0px; position:fixed; top:8px;
-                &:before            { content:''; display:none; }
-                &:after             { @include border-radius(50%, 50%, 50%, 50%); width:25px; height:25px; line-height:12px; color:$dashboard_29; background:$dashboard_56; }
+          //
+          #view-more-logs             {@include font-size(12px); position:relative; float:right; padding:2px; color:$dashboard_49; cursor:pointer;
+            &:before                  {content:"View More";}
+          }
+        }
+      }
+    }
 
-                &:hover             { @include border-radius(50px, 50px, 50px, 50px); padding:5px; color:$dashboard_133; background:$dashboard_125;
-                  &:before          { content:'Follow Log'; display:inline-block; margin:0px 8px; color:$dashboard_113; }
-                  &:after           { width:initial; height:initial; line-height:5px; background:none; color:$dashboard_133; }
-                }
-
-                &.active            {
-                  &:before          { }
-                  &:after           { background:$dashboard_125; color:$dashboard_133; }
-
-                  &:hover           { color:$dashboard_29; background:$dashboard_56;
-                    &:before        { content:'Unfollow'; color:$dashboard_29;}
-                    &:after         { background:none; color:$dashboard_29;}
-                  }
-                }
-              }
+    //
+    tbody                             {min-height:400px;
+      tr                              {
+        td                            {border:none;
+          &:first-child               {@include panel_left_defaults; padding:15px 0px; background:$dashboard_29;
+            .entries                  {width:100%; margin:0px;
+              .entry                  {@include font-size(11px); display:flex; justify-content:space-between; width:100%; padding:0px 15px; line-height:15px;}
+            }
+          }
+          &:last-child                {@include panel_right_defaults; padding:15px 0px; background:$dashboard_64; overflow-x:scroll; overflow-y:hidden;
+            .messages                 {width:100%; margin:0px; color:$dashboard_92; letter-spacing:0.5px;
+              .message                {@include font-size(11px, 15px); display:block; float:left; width:100%; padding:0px 15px; font-family:$monaco; white-space:pre;}
             }
           }
         }
@@ -175,62 +179,31 @@ $panel_right_width: 800px;
     }
 
     //
-    tbody                           {min-height:400px;
-      tr                            {
-        td                          {border:none;
-          &:first-child             {@include panel_left_defaults; padding:15px 0px; background:$dashboard_29;
-            .entries                {width:100%; margin:0px;
-              .entry                {@include font-size(11px); display:flex; justify-content:space-between; width:100%; padding:0px 15px; line-height:15px;}
-            }
-          }
-          &:last-child              {@include panel_right_defaults; padding:15px 0px; background:$dashboard_64; overflow-x:scroll; overflow-y:hidden;
-            .messages               {width:100%; margin:0px; color:$dashboard_92; letter-spacing:0.5px;
-              .message              {@include font-size(11px, 15px); display:block; float:left; width:100%; padding:0px 15px; font-family:$monaco; white-space:pre;}
-            }
-          }
-        }
-      }
-    }
-  }
+    // disable all displays by default
+    .logs-panel                       {.description {@include transition(); display:none; opacity:0;}}
+    thead                             {#filter-logs {display:none;} #follow-logs {display:none;} #view-more-logs {display:none;}}
+    tbody                             {.entries {display:none;}}
 
-  //
-  // disable all displays by default
-  .logs-panel                   {.description {@include transition(); display:none; opacity:0;}}
-  table.log-display             {
-    thead                       {
-      // streaming/historic
-      .input.filter             {display:none;}
-
-      // streaming/builds
-      #follow-log               {display:none;}
-
-      // historic
-      #view-more                {display:none;}
+    // when live logs; turn on live log displays
+    &.live                            {
+      .logs-panel                     {.toggle.live {@extend .checked;}}
+      .description.live               {display:inline-block; opacity:1;}
+      thead                           {#filter-logs {display:inline-block;} #follow-logs {display:inline-block;}}
+      tbody                           {.entries{display:inline-block;}}
     }
 
-    tbody                       {
-      // streaming/histroical
-      .entries                  {display:none;}
+    // when historic logs; turn on historic log displays
+    &.historic                        {
+      .logs-panel                     {.toggle.historic {@extend .checked;}}
+      .description.historic           {display:inline-block; opacity:1;}
+      thead                           {#filter-logs {display:inline-block;} #view-more-logs {display:inline-block;}}
+      tbody                           {.entries{display:inline-block;}}
     }
-  }
 
-  // when live logs; turn on live log displays
-  &.live                         {
-    .logs-panel                  {.toggle.live {@extend .checked;}}
-    .description.live            {display:inline-block; opacity:1;}
-    table.log-display            {
-      thead                      {.input.filter {display:inline-block;} #follow-log {display:inline-block;}}
-      tbody                      {.entries{display:inline-block;}}
-    }
-  }
-
-  // when historic logs; turn on historic log displays
-  &.historic                     {
-    .logs-panel                  {.toggle.historic {@extend .checked;}}
-    .description.historic        {display:inline-block; opacity:1;}
-    table.log-display            {
-      thead                      {.input.filter {display:inline-block;} #view-more {display:inline-block;}}
-      tbody                      {.entries{display:inline-block;}}
+    //
+    &.loading                         {
+      .logs-panel                     {cursor:wait; .toggle {pointer-events:none;}}
+      thead                           {#view-more-logs {pointer-events:none; &:before {content:"Loading..." !important;}}}
     }
   }
 }

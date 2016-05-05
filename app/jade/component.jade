@@ -1,49 +1,36 @@
-//- img.shadow-icon(data-src = "log-eye")
-
-//- img.shadow-icon(data-src = "log-x")
-
-
 //-
-#app-logs(class = "live")
-  //- .quickdoc_toggle(data: (quickdoc: "app_logs", heading: "App Logs"))
-      
-  //-
-  table.log-display.live
+.nanobox-dash-ui-logs
+
+  //- 
+  table.log-display(class = "live")
   
     //- 
     thead
     
-      //- 
+      //- toggle between logs
       tr.logs-panel
         td.placeholder
         td.shadow-parent
-          .radio.radio-bottom.toggle.live(data-toggle = "live")
-            .icon
-              img.shadow-icon(data-src = "live")
+          .toggle.live(data-toggle = "live")
+            img.shadow-icon(data-src = "live")
             .label.live Live Stream
-          .radio.radio-bottom.toggle.historic(data-toggle = "historic")
-            .icon
-              img.shadow-icon(data-src = "historical")
+          .toggle.historic(data-toggle = "historic")
+            img.shadow-icon(data-src = "historical")
             .label.historic Historical
-
           p.description.live Application logs such as stdout, stderr, etc., emitted from your application; The primary source for troubleshooting your application.
           p.description.historic A historic representation of the streaming log. Anything not seen during a stream can be found here.
           
-      //- 
+      //- filter, follow, and view more logs
       tr.log-panel
         td.placeholder
-        td
-          
-          //- streaming/historic
-            .input.filter.shadow-parent
+        td.shadow-parent
+          //- 
+            #filter-logs.input
               img.shadow-icon(data-src = "log-magnify")
               input(placeholder = "Filter logs")
-
-          //- streaming/build
-          #follow-log.locked
-
-          //- historic; value handled via javascript
-          #view-more
+          #follow-logs.locked
+            img.shadow-icon(data-src = "log-eye")
+          #view-more-logs
 
     //- 
     tbody

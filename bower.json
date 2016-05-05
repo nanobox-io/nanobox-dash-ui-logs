@@ -8,7 +8,9 @@
     "PubSubJS": "pubsub-js#^1.5.3",
     "moment": "^2.13.0",
     "lodash": "^4.11.2",
-    "mist-client-js": "nanopack/mist-client-js"
+    "mist-client-js": "nanopack/mist-client-js",
+    "logvac-client-js": "nanopack/logvac-client-js",
+    "eventify": "sdomino/eventify"
   },
   "ignore": [
     "app",

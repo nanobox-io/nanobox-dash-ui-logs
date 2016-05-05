@@ -11,20 +11,20 @@ class Logs
   _processes:  []
   _colors:     ['#009484', '#99D0D3', '#707C87', '#D56D44', '#1F6367', '#62808B']
 
-  #
-  $entries: undefined
-  $stream:  undefined
-
   # constructor
   constructor: ($el, @options) ->
-    @$node = $(component())
-    $el.append @$node
 
-    # add svg icons
-    castShadows($(".shadow-parent"))
+    #
+    @$node = $(component())
+    @$table = @$node.find("table")
+
+    $el.append @$node
 
     #
     @options.main = @
+
+    # add svg icons
+    castShadows($(".shadow-parent"))
 
   # build creates a new component based on the @view that is passed in when
   # instantiated
@@ -35,20 +35,28 @@ class Logs
     @historicView = new HistoricView @$node, @options
 
     #
-    @$entries = @$node.find("tbody .entries")
-    @$stream = @$node.find("tbody .messages")
+    @liveView.on "live.loading", () => @$table.addClass("loading")
+    @liveView.on "live.loaded", () => @$table.removeClass("loading")
+    @historicView.on "historic.loading", () => @$table.addClass("loading")
+    @historicView.on "historic.loaded", () => @$table.removeClass("loading")
+
+    #
+    @$entries = @$table.find("tbody .entries")
+    @$stream = @$table.find("tbody .messages")
 
     #
     for toggle in @$node.find(".logs-panel .toggle")
       $(toggle).click (e) =>
 
-        #
-        @wipe()
+        # reset the view
+        @_processes = []
+        @$entries?.empty()
+        @$stream?.empty()
 
         #
         log = $(e.currentTarget).data("toggle")
-        @$node.removeClass "live historic"
-        @$node.addClass log
+        @$table.removeClass "live historic"
+        @$table.addClass log
 
         #
         @[@currentLog].unload()
@@ -95,9 +103,6 @@ class Logs
     #
     entry
 
-  # disconnect all scrolling events when we leave this view
-  # viewDidDisappear : () -> @unfollow_log()
-
   #
   # follow_log = () ->
   #
@@ -139,19 +144,6 @@ class Logs
   # deactivate_follow = () ->
   #   @$follow_log?.removeClass('active')
   #   @following_log = false
-
-  #
-  clear: () -> @_processes = []
-
-  #
-  empty: () ->
-    @$entries?.empty()
-    @$stream?.empty()
-
-  #
-  wipe: () ->
-    @clear()
-    @empty()
 
   #
   update_status: (status) =>
