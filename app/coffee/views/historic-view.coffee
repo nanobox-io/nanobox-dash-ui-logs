@@ -11,7 +11,7 @@ module.exports = class Historic
     @main = @options.main
 
     # connect to logvac
-    @logvac = new Logvac({logsEnabled: true, logLevel: "INFO", host: "https://#{@options.historicHost}", auth: @options.historicToken})
+    @logvac = new Logvac({logsEnabled: @options.logsEnabled, logLevel: @options.logLevel, host: "https://#{@options.historicHost}", auth: @options.historicToken})
 
     # handle data load
     @logvac.on "logvac:_xhr.load", (key, data) =>

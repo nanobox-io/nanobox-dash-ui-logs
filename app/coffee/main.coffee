@@ -12,7 +12,7 @@ class Logs
   _colors:     ['#009484', '#99D0D3', '#707C87', '#D56D44', '#1F6367', '#62808B']
 
   # constructor
-  constructor: ($el, @options) ->
+  constructor: ($el, @options={logsEnabled:false, logLevel:"INFO"}) ->
 
     #
     @$node = $(component())
