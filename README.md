@@ -3,13 +3,13 @@
 ```coffeescript
 
 # initialize, selecting the type (either live, or historic)
-live = new nanobox.Logs("live", $("body")), {}
-historic = new nanobox.Logs("historic", $("body")) {}
+live = new nanobox.Logs $("body"), {}
+historic = new nanobox.Logs $("body") {}
 ```
 
 #### Options
 | Option=default | Description |
-|---|---|---|
+|---|---|
 | logsEnabled=false | Is logging enabled (T/F) |
 | logLevel="INFO" | Selected log level of [available levels](https://github.com/sdomino/dash/blob/master/src/dash.coffee#L8) |
 | historicHost="" | The IP to `GET` historic logs from |
