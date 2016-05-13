@@ -49,20 +49,14 @@ module.exports = class Historic
   #
   load: () ->
 
-    #
+    # load more logs
     @$node.find('#view-more-logs').click () => @loadHistoricalData()
 
-    #
+    # load initial logs
     @loadHistoricalData()
 
   #
   unload: () -> delete @lastEntry
-
-  #
-  resetView: () ->
-    @fire "historic.loaded"
-    @loading = false
-    @main.update_status ""
 
   #
   loadHistoricalData: () ->
@@ -76,7 +70,13 @@ module.exports = class Historic
       # get logs; convert start time from milliseconds to nanoseconds
       @logvac.get({type: "log", start: ((@lastEntry?.time.valueOf()*1000000) || 0)})
 
-  # This does the inserting of the HTML
+  #
+  resetView: () ->
+    @fire "historic.loaded"
+    @loading = false
+    @main.update_status ""
+
+  # this does the inserting of the HTML
   addEntry : (entry, delay) ->
 
     #

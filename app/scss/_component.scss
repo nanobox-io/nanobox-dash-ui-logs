@@ -166,7 +166,7 @@ $dashboard_137:   #232323;
         td                            {border:none;
           &:first-child               {@include panel_left_defaults; padding:15px 0px; background:$dashboard_29;
             .entries                  {width:100%; margin:0px;
-              .entry                  {@include font-size(11px); display:flex; justify-content:space-between; width:100%; padding:0px 15px; line-height:15px;}
+              .entry                  {@include font-size(11px, 15px); display:flex; justify-content:space-between; width:100%; padding:0px 15px;}
             }
           }
           &:last-child                {@include panel_right_defaults; padding:15px 0px; background:$dashboard_64; overflow-x:scroll; overflow-y:hidden;

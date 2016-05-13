@@ -1,8 +1,6 @@
-LiveView      = require 'views/live-view'
-HistoricView  = require 'views/historic-view'
-
-#
-component      = require 'jade/component'
+component    = require 'jade/component'
+LiveView     = require 'views/live-view'
+HistoricView = require 'views/historic-view'
 
 #
 class Logs
@@ -11,40 +9,43 @@ class Logs
   _processes:  []
   _colors:     ['#009484', '#99D0D3', '#707C87', '#D56D44', '#1F6367', '#62808B']
 
-  # constructor
-  constructor: ($el, @options={logsEnabled:false, logLevel:"INFO"}) ->
+  #
+  constructor: ($el, @options={}) ->
+
+    # set defaults
+    if !@options.logsEnabled then @options.logsEnabled = false
+    if !@options.loglevel then @options.logLevel = "INFO"
 
     #
     @$node = $(component())
-    @$table = @$node.find("table")
-
     $el.append @$node
-
-    #
-    @options.main = @
-
-    # add svg icons
-    castShadows($(".shadow-parent"))
 
   # build creates a new component based on the @view that is passed in when
   # instantiated
   build : () ->
 
+    # set this as the parent
+    @options.main = @
+
+    # get reusable nodes
+    @$table   = @$node.find("table")
+    @$entries = @$table.find("tbody .entries")
+    @$stream  = @$table.find("tbody .messages")
+
+    # add svg icons
+    castShadows($(".shadow-parent"))
+
     #
     @liveView = new LiveView @$node, @options
     @historicView = new HistoricView @$node, @options
 
-    #
+    # setup event handlers
     @liveView.on "live.loading", () => @$table.addClass("loading")
     @liveView.on "live.loaded", () => @$table.removeClass("loading")
     @historicView.on "historic.loading", () => @$table.addClass("loading")
     @historicView.on "historic.loaded", () => @$table.removeClass("loading")
 
-    #
-    @$entries = @$table.find("tbody .entries")
-    @$stream = @$table.find("tbody .messages")
-
-    #
+    # activate toggles
     for toggle in @$node.find(".logs-panel .toggle")
       $(toggle).click (e) =>
 
