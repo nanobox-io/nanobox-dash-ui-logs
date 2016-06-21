@@ -17,21 +17,24 @@ html(lang="en")
     .logs
         
     // build:remove 
-    script(src="bower-libs/jquery/dist/jquery.js")
-    script(src="bower-libs/jade/runtime.js")
-    script(src="bower-libs/shadow-icons/rel/app.js")
-    script(src="bower-libs/PubSubJS/src/pubsub.js")
-    script(src="bower-libs/moment/min/moment.min.js")
-    script(src="bower-libs/lodash/dist/lodash.min.js")
-    script(src="bower-libs/eventify/dist/eventify.min.js")
     script(src="bower-libs/dash/dist/dash.min.js")
-    script(src="bower-libs/mist-client-js/dist/mist-client-js.min.js")
+    script(src="bower-libs/eventify/dist/eventify.min.js")
+    script(src="bower-libs/jade/runtime.js")
+    script(src="bower-libs/jquery/dist/jquery.js")
+    script(src="bower-libs/lodash/dist/lodash.min.js")
     script(src="bower-libs/logvac-client-js/dist/logvac-client-js.min.js")
-    script(src="https://use.typekit.net/cqd5kth.js")
-    // endbuild
-
+    script(src="bower-libs/mist-client-js/dist/mist-client-js.min.js")
+    script(src="bower-libs/moment/min/moment.min.js")
+    script(src="bower-libs/PubSubJS/src/pubsub.js")
+    script(src="bower-libs/shadow-icons/rel/app.js")
+    
     //- 
+    script(src="https://use.typekit.net/cqd5kth.js")
     script(type="text/javascript") try{Typekit.load({ async: true });}catch(e){}
+    
+    //- 
+    script(src="http://localhost:35729/livereload.js")
+    // endbuild
 
     // build:js app.js
     script(src="js/main.js")
@@ -46,6 +49,3 @@ html(lang="en")
     script(type="text/javascript").
       init();
       
-    // build:remove 
-    script(src="http://localhost:35729/livereload.js")
-    // endbuild
