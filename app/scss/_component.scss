@@ -71,6 +71,7 @@ $dashboard_137:   #232323;
         &.logs-panel                  {
           td:not(.placeholder)        {@include panel_right_defaults; display:flex; align-items:center; margin:25px 0px; color:$dashboard_23;}
 
+          // CLEAN THIS UP (DONT NEED BEFORE AND AFTER)
           //
           .toggle                     {@include font-size(14px); flex:0 1 20%; color:$dashboard_20; border-right:1px solid $dashboard_11; text-align:center; cursor:pointer;
             svg                       {margin-bottom:8px;}

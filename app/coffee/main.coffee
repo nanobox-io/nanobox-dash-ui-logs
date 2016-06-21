@@ -1,3 +1,13 @@
+
+
+
+
+# TODO: MAKE THIS USE URI FOR OPTIONS RATHER THAN THE CURRENT VALUIES!
+# scheme:[//[user:password@]host[:port]][/]path[?query][#fragment]
+
+
+
+
 component    = require 'jade/component'
 LiveView     = require 'views/live-view'
 HistoricView = require 'views/historic-view'
@@ -45,6 +55,8 @@ class Logs
     @historicView.on "historic.loading", () => @$table.addClass("loading")
     @historicView.on "historic.loaded", () => @$table.removeClass("loading")
 
+
+    # HOW ARE THESE GETTING "CHECKED"?
     # activate toggles
     for toggle in @$node.find(".logs-panel .toggle")
       $(toggle).click (e) =>

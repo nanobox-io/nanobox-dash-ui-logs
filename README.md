@@ -2,9 +2,18 @@
 ## Usage
 ```coffeescript
 
-# initialize, selecting the type (either live, or historic)
-live = new nanobox.Logs $("body"), {}
-historic = new nanobox.Logs $("body") {}
+#
+options = {
+  liveHost:       "127.0.0.1:8888" ,
+  liveToken:      "TOKEN",
+  tags:           ["log"],
+  historicHost:   "127.0.0.1:1234",
+  historicToken:  "TOKEN"
+}
+
+#
+logs = new nanobox.Logs $(".logs"), options
+logs.build()
 ```
 
 #### Options
