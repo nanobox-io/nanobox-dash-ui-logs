@@ -14,7 +14,7 @@ module.exports = class LiveView
     # connect to mist
     @main.update_status "connecting-live"
     @mist = new Mist({logsEnabled: @options.logsEnabled, logLevel: @options.logLevel})
-    @mist.connect("ws://#{@options.liveHost}/subscribe/websocket?x-auth-token=#{@options.liveToken}")
+    @mist.connect(@options.liveURI)
 
     # subscribe once the socket is open
     # @mist.on "mist:_socket.onopen", () => @mist.subscribe(@tags)

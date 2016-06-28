@@ -10,8 +10,11 @@ module.exports = class Historic
     #
     @main = @options.main
 
+    # parse the uri
+    uri = new URI(@options.historicURI);
+
     # connect to logvac
-    @logvac = new Logvac({logsEnabled: @options.logsEnabled, logLevel: @options.logLevel, host: "https://#{@options.historicHost}", auth: @options.historicToken})
+    @logvac = new Logvac({logsEnabled: @options.logsEnabled, logLevel: @options.logLevel, host: "#{uri.host()}", auth: uri.query(true)["x-auth-token"]})
 
     # handle data load
     @logvac.on "logvac:_xhr.load", (key, data) =>

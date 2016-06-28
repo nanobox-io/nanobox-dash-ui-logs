@@ -10,7 +10,8 @@
     "lodash": "^4.11.2",
     "mist-client-js": "nanopack/mist-client-js",
     "logvac-client-js": "nanopack/logvac-client-js",
-    "eventify": "sdomino/eventify"
+    "eventify": "sdomino/eventify",
+    "urijs": "^1.18.1"
   },
   "ignore": [
     "app",

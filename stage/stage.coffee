@@ -1,12 +1,12 @@
 window.init = () ->
 
+  # scheme:[//[user:password@]host[:port]][/]path[?query][#fragment]
+
   #
   options = {
-    liveHost:       "127.0.0.1:8888" ,
-    liveToken:      "TOKEN",
-    tags:           ["log"],
-    historicHost:   "127.0.0.1:1234",
-    historicToken:  "TOKEN"
+    liveURI:     "ws://127.0.0.1:8888/subscribe/websocket?x-auth-token=TOKEN"
+    historicURI: "https://127.0.0.1:1234?x-auth-token=TOKEN"
+    tags:        ["log"],
   }
 
   #

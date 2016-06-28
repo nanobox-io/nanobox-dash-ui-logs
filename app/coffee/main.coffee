@@ -1,13 +1,3 @@
-
-
-
-
-# TODO: MAKE THIS USE URI FOR OPTIONS RATHER THAN THE CURRENT VALUIES!
-# scheme:[//[user:password@]host[:port]][/]path[?query][#fragment]
-
-
-
-
 component    = require 'jade/component'
 LiveView     = require 'views/live-view'
 HistoricView = require 'views/historic-view'
