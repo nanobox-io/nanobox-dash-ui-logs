@@ -9,8 +9,8 @@ scheme format:
 
 #
 options = {
-  liveURI:     "ws://127.0.0.1:8888/subscribe/websocket?x-auth-token=TOKEN"
-  historicURI: "https://127.0.0.1:1234?x-auth-token=TOKEN"
+  liveURI:     "ws://127.0.0.1:8888/subscribe/websocket?x-auth-token=TOKEN",
+  historicURI: "https://127.0.0.1:1234?x-auth-token=TOKEN",
   tags:        ["log"],
 }
 
