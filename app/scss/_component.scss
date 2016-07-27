@@ -30,27 +30,9 @@
         &.logs-panel                  {
           td:not(.placeholder)        {@include panel_right_defaults; display:flex; align-items:center; margin:25px 0px; color:$dashboard_23;}
 
-          // CLEAN THIS UP (DONT NEED BEFORE AND AFTER)
           //
-          .toggle                     {@include font-size(14px); flex:0 1 20%; color:$dashboard_20; border-right:1px solid $dashboard_11; text-align:center; cursor:pointer;
-            svg                       {margin-bottom:8px;}
-
-            .label                    {display:inline-block; width:100%; margin:0px;
-              &:before, &:after       {@include drop-shadow(0, 1px, 2px, $dashboard_18); @include border-radius(100%, 100%, 100%, 100%); content:""; display:inline-block; position:relative; width:14px; height:14px; background:$white;}
-              &:before                {display:none;}
-              &:after                 {display:block; position:relative; bottom:-5px; margin:0 auto;}
-            }
-
-            //
-            &:hover                   {.label {color:$dashboard_73;} svg * {stroke: $dashboard_73;}}
-
-            //
-            &.checked                 {pointer-events:none;
-              .label                  {color:$dashboard_79;
-                &:before, &:after     {width:8px; height:8px; border:3px solid white; background:$dashboard_73;}
-              }
-              svg *                   {stroke:$dashboard_79;}
-            }
+          .toggle                     {@include font-size(14px); display:flex; flex-direction:column; align-items:center; flex:0 1 20%; color:$dashboard_20; border-right:1px solid $dashboard_11; text-align:center;
+            label                     {display:flex; flex-direction:column; align-items:center; span {margin:5px 0px;}}
           }
 
           //
@@ -146,7 +128,7 @@
 
     // when live logs; turn on live log displays
     &.live                            {
-      .logs-panel                     {.toggle.live {@extend .checked;}}
+      // .logs-panel                     {.toggle.live {@extend .checked;}}
       .description.live               {display:inline-block; opacity:1;}
       thead                           {#filter-logs {display:inline-block;} #follow-logs {display:inline-block;}}
       tbody                           {.entries{display:inline-block;}}
@@ -154,7 +136,7 @@
 
     // when historic logs; turn on historic log displays
     &.historic                        {
-      .logs-panel                     {.toggle.historic {@extend .checked;}}
+      // .logs-panel                     {.toggle.historic {@extend .checked;}}
       .description.historic           {display:inline-block; opacity:1;}
       thead                           {#filter-logs {display:inline-block;} #view-more-logs {display:inline-block;}}
       tbody                           {.entries{display:inline-block;}}

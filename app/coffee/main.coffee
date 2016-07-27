@@ -45,26 +45,8 @@ class Logs
     @historicView.on "historic.loading", () => @$table.addClass("loading")
     @historicView.on "historic.loaded", () => @$table.removeClass("loading")
 
-
-    # HOW ARE THESE GETTING "CHECKED"?
-    # activate toggles
-    for toggle in @$node.find(".logs-panel .toggle")
-      $(toggle).click (e) =>
-
-        # reset the view
-        @_processes = []
-        @$entries?.empty()
-        @$stream?.empty()
-
-        #
-        log = $(e.currentTarget).data("toggle")
-        @$table.removeClass "live historic"
-        @$table.addClass log
-
-        #
-        @[@currentLog].unload()
-        @currentLog = "#{log}View"
-        @[@currentLog].load()
+    #
+    @_activateToggles()
 
     # load live by default
     @liveView.load()
@@ -162,6 +144,25 @@ class Logs
   clear_status: =>
     @$node.find("table").removeClass @currentStatus
     @currentStatus = ''
+
+  # _activateToggles
+  _activateToggles: =>
+    @$node.find(".logs-panel .toggle").change (e) =>
+
+      # reset the view
+      @_processes = []
+      @$entries?.empty()
+      @$stream?.empty()
+
+      #
+      log = $(e.currentTarget).data("toggle")
+      @$table.removeClass "live historic"
+      @$table.addClass log
+
+      #
+      @[@currentLog].unload()
+      @currentLog = "#{log}View"
+      @[@currentLog].load()
 
 #
 window.nanobox ||= {}
