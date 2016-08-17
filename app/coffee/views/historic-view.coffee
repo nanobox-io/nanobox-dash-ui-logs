@@ -21,7 +21,7 @@ module.exports = class Historic
       auth:         "X-USER-TOKEN=#{uri.query(true)["X-USER-TOKEN"]}"
       type:         @options.type || "app"
       id:           @options.id || "" # used for filtering by component logs
-      limit: 3
+      limit:        @options.limit
     }
 
     # connect to logvac
@@ -52,7 +52,6 @@ module.exports = class Historic
 
         # get the last entry and convert it into a formatable entry
         @lastEntry = @logs[0]
-        console.log "LAST", @lastEntry
         @lastEntry = @main.format_entry(@lastEntry)
 
         # we reverse the array here because the logs or ordered oldest to newest

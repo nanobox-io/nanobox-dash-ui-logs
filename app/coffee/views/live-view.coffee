@@ -11,9 +11,14 @@ module.exports = class LiveView
     @main = @options.main
     @tags = @options.tags
 
+    @mistOptions = {
+      logsEnabled: @options.logsEnabled,
+      logLevel:    @options.logLevel
+    }
+
     # connect to mist
     @main.update_status "connecting-live"
-    @mist = new Mist({logsEnabled: @options.logsEnabled, logLevel: @options.logLevel})
+    @mist = new Mist(@mistOptions)
     @mist.connect(@options.liveURI)
 
     # subscribe once the socket is open
@@ -61,8 +66,7 @@ module.exports = class LiveView
     )
 
     #
-    $message = $("<span class='message' style='#{entry.styles};'></span>")
-      .text(entry.message)
+    $message = $("<span class='message' style='#{entry.styles};'>#{entry.log}</span>")
       .data('$entry', $entry)
 
     #
