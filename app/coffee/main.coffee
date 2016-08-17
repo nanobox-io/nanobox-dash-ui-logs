@@ -57,33 +57,16 @@ class Logs
   #     # @filter_logs()
 
   #
-  format_entry: (data) =>
-    entry = {}
-    entry.time = data.time
+  format_entry: (entry) =>
+
     entry.short_date_time = moment(entry.time).format("DD MMM, h:mm a")
-    entry.log = data.log
-
-    ## example data streams parsed with regex ##
-    # data.log ~= "web1.apache[access] 69.92.84.90 - - [03/Dec/2013:19:59:57 +0000] \"GET / HTTP/1.1\" 200 183 \"-\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36\"\n"
-    # data.log ~= "storage1.mycustomlog2 69.92.84.90 - - [03/Dec/2013:19:59:57 +0000] \"GET / HTTP/1.1\" 200 183 \"-\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36\"\n"
-    # data.log ~= "database1.my2[customlog2] 69.92.84.90 - - [03/Dec/2013:19:59:57 +0000] \"GET / HTTP/1.1\" 200 183 \"-\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36\"\n"
-    # data.log ~= "cache.[mycustomlog2] 69.92.84.90 - - [03/Dec/2013:19:59:57 +0000] \"GET / HTTP/1.1\" 200 183 \"-\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36\"\n"
-    #
-    # match[1] = web1
-    # match[2] = apache[access]
-    # match[3] = 69.92.84.90 - - [03/Dec/2013:19:59:57 +0000] \"GET / HTTP/1.1\" 200 183 \"-\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36\"\n"
-
-    match = data.log.replace(/(\n|\r)/gm,"").match(/^(\w+)\.(\S+)\s+(.*)$/)
-
-    entry.service = match[1]
-    entry.process = match[2]
-    entry.message = "#{entry.process} #{match[3]}\r\n"
+    entry.log = "#{entry.tag} #{entry.message}\r\n"
 
     # add any 'new' processes to an array
-    @_processes.push entry.process unless _.includes(@_processes, entry.process)
+    @_processes.push entry.tag unless _.includes(@_processes, entry.tag)
 
     # set the entry color index to be (processes.length % colors.length)
-    entry.styles = "color:#{@_colors[(_.indexOf(@_processes, entry.process)%@_colors.length)]};"
+    entry.styles = "color:#{@_colors[(_.indexOf(@_processes, entry.tag)%@_colors.length)]};"
 
     #
     entry
