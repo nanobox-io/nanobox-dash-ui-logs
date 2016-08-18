@@ -62,7 +62,7 @@ class Logs
   format_entry: (entry) =>
 
     entry.short_date_time = moment(entry.time).format("DD MMM, h:mm a")
-    entry.log = "#{entry.tag} #{entry.message}\r\n"
+    entry.log = "#{entry.tag} #{entry.message}"#.replace(/(\r\n|\n|\r)/gm,"\r\n");
 
     # add any 'new' processes to an array
     @_processes.push entry.tag unless _.includes(@_processes, entry.tag)

@@ -100,12 +100,11 @@ module.exports = class Historic
     $entry = $(
       "<div class=entry style='#{entry.styles}; opacity:0;'>
         <div class=time>#{entry.short_date_time}</div>
-        <div class=service>#{entry.id}</div>
       </div>"
-      ).delay(delay).animate({opacity:1}, {duration:250})
+    ).delay(delay).animate({opacity:1}, {duration:250})
 
     #
-    $message = $("<span class='message' style='#{entry.styles}; opacity:0;'>#{entry.log}</span>")
+    $message = $("<span class='message' style='#{entry.styles}; opacity:0;'>#{entry.id} :: #{entry.log}</span>")
       .data('$entry', $entry)
       .delay(delay).animate({opacity:1}, {duration:250})
 

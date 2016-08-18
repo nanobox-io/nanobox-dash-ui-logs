@@ -26,6 +26,8 @@ module.exports = class LiveView
     @mist.on "mist:_socket.onerror", (key, data) => @main.update_status "communication-error"
     @mist.on "mist:_socket.onclose", (key, data) => @main.update_status "communication-error"
 
+    window.mist = @mist
+
     #
     @_handleDataPublish()
 
@@ -41,38 +43,38 @@ module.exports = class LiveView
 
   # load any logs that are published for the tags we're interested in
   _handleDataPublish: () ->
-    @mist.on "mist:command.publish:[#{@tags.join()}]", (key, data) =>
+    # because we're only subscribing to one tag the handler needs to be formatted
+    # this way rather than "mist:command.publish:[tags]"; once we subscribe to
+    # multiple tags we'll do it that way
+    @mist.on "mist:command.publish:#{@tags.join()}", (key, data) =>
       @main.clear_status()
 
-      #
-      for log in [data]
+      log = JSON.parse(data.data)
 
-        #
-        window.scrollTo(0, document.body.scrollHeight) if @main.following_log
+      window.scrollTo(0, document.body.scrollHeight) if @main.following_log
 
-        # this should stop any mist entriest that come across with rogue data that
-        # we won't be able to format as a log
-        try
-          @_addEntry(@main.format_entry({time: moment(), log: log.data}))
+      # this should stop any mist entriest that come across with rogue data that
+      # we won't be able to format as a log
+      try
+        @_addEntry(@main.format_entry(log))
 
-  #
-  _addEntry: (entry) ->
+  # this does the inserting of the HTML
+  _addEntry : (entry, delay) ->
 
-    #
+    # if the log has no length add a space
     entry.log = "&nbsp;" if (entry.log.length == 0)
 
-    #
+    # build the entry
     $entry = $(
       "<div class=entry style='#{entry.styles};'>
         <div class=time>#{entry.short_date_time}</div>
-        <div class=service>#{entry.service}</div>
       </div>"
     )
 
     #
-    $message = $("<span class='message' style='#{entry.styles};'>#{entry.log}</span>")
+    $message = $("<span class='message' style='#{entry.styles};'>#{entry.id} :: #{entry.log}</span>")
       .data('$entry', $entry)
 
     #
-    @main.$entries?.append $entry
-    @main.$stream?.append $message
+    @main.$entries?.prepend $entry
+    @main.$stream?.prepend $message
