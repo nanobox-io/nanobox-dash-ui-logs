@@ -12,10 +12,6 @@ class Logs
   #
   constructor: ($el, @options={}) ->
 
-    # set defaults
-    if !@options.logsEnabled then @options.logsEnabled = false
-    if !@options.loglevel then @options.logLevel = "INFO"
-
     #
     @$node = $(component())
     $el.append @$node
@@ -23,9 +19,6 @@ class Logs
   # build creates a new component based on the @view that is passed in when
   # instantiated
   build : () ->
-
-    # set this as the parent
-    @options.main = @
 
     # get reusable nodes
     @$table   = @$node.find("table")
@@ -36,8 +29,8 @@ class Logs
     castShadows($(".shadow-parent"))
 
     #
-    @liveView = new LiveView @$node, @options
-    @historicView = new HistoricView @$node, @options
+    @liveView = new LiveView @$node, @options.liveConfig, @
+    @historicView = new HistoricView @$node, @options.historicConfig, @
 
     # setup event handlers
     @liveView.on "live.loading", () => @$table.addClass("loading")
@@ -57,6 +50,15 @@ class Logs
   #     # @filter_logs()
 
   #
+  # {
+  #   "time": "2016-08-17T17:20:42.8182469Z",
+  #   "utime": 1471454442818246900,
+  #   "id": "worker.sequences",
+  #   "tag": "app[daemon]",
+  #   "type": "app",
+  #   "priority": 4,
+  #   "message": "2016-08-17T17:20:42.81737 2016-08-17T17:20:42.817Z 148 TID-11sjmo Sequenceable::Workers::ResumeWorker JID-fee63832a025ed302317e962 INFO: done: 0.101 sec"
+  # }
   format_entry: (entry) =>
 
     entry.short_date_time = moment(entry.time).format("DD MMM, h:mm a")
