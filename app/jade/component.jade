@@ -1,56 +1,3 @@
-//- //-
-//- .nanobox-dash-ui-logs
-//- 
-//-   //- 
-//-   table.log-display(class = "live")
-//-   
-//-     //- 
-//-     thead
-//-     
-//-       //- toggle between logs
-//-       tr.logs-panel
-//-         td.placeholder
-//-         td.shadow-parent
-//-           .toggle.input.radio_buttons(data-toggle="live")
-//-             label(for="log-live")
-//-               img.shadow-icon(data-src="live")
-//-               span Live Stream
-//-             input(type="radio", name="log", id="log-live", value="live", checked="checked")
-//-           .toggle.input.radio_buttons(data-toggle="historic")
-//-             label(for="log-historic")
-//-               img.shadow-icon(data-src="historical")
-//-               span Historical
-//-             input(type="radio", name="log", id="log-historic", value="historic")
-//-           p.description.live Application logs such as stdout, stderr, etc., emitted from your application; The primary source for troubleshooting your application.
-//-           p.description.historic A historic representation of the streaming log. Anything not seen during a stream can be found here.
-//-           
-//-       //- filter, follow, and view more logs
-//-       tr.log-panel
-//-         td.placeholder
-//-         td.shadow-parent
-//-           //- 
-//-             #filter-logs.input
-//-               img.shadow-icon(data-src = "log-magnify")
-//-               input(placeholder = "Filter logs")
-//-           #follow-logs.locked
-//-             img.shadow-icon(data-src="log-eye")
-//-           #view-more-logs
-//- 
-//-     //- 
-//-     tbody
-//-       tr
-//-         td
-//-           .entries
-//-             //- added via javascript
-//- 
-//-         //-
-//-         td
-//-           #status
-//-           pre.messages.selectable
-//-             //- added via javascript
-
-
-
 //-
 .nanobox-dash-ui-logs
 
@@ -82,7 +29,7 @@
     .log-output
       
       //- filter, follow, and view more logs
-      .contorls
+      .controls
         //- 
           #filter-logs.input
             img.shadow-icon(data-src = "log-magnify")
