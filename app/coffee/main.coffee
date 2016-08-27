@@ -21,22 +21,22 @@ class Logs
   build : () ->
 
     # get reusable nodes
-    @$table   = @$node.find("table")
-    @$entries = @$table.find("tbody .entries")
-    @$stream  = @$table.find("tbody .messages")
+    @$thing   = @$node.find(".log-display")
+    @$entries = @$thing.find(".entries")
+    @$stream  = @$thing.find(".messages")
 
     # add svg icons
-    castShadows($(".shadow-parent"))
+    castShadows(@node)
 
     #
     @liveView = new LiveView @$node, @options.liveConfig, @
     @historicView = new HistoricView @$node, @options.historicConfig, @
 
     # setup event handlers
-    @liveView.on "live.loading", () => @$table.addClass("loading")
-    @liveView.on "live.loaded", () => @$table.removeClass("loading")
-    @historicView.on "historic.loading", () => @$table.addClass("loading")
-    @historicView.on "historic.loaded", () => @$table.removeClass("loading")
+    @liveView.on "live.loading", () => @$thing.addClass("loading")
+    @liveView.on "live.loaded", () => @$thing.removeClass("loading")
+    @historicView.on "historic.loading", () => @$thing.addClass("loading")
+    @historicView.on "historic.loaded", () => @$thing.removeClass("loading")
 
     #
     @_activateToggles()
@@ -46,8 +46,8 @@ class Logs
     @currentLog = "liveView"
 
   # load_logs: (logs) =>
-  #     # window.scrollTo(0, document.body.scrollHeight) if @following_log
-  #     # @filter_logs()
+  #   window.scrollTo(0, document.body.scrollHeight) if @following_log
+  #   @filter_logs()
 
   #
   # {
@@ -62,7 +62,7 @@ class Logs
   format_entry: (entry) =>
 
     entry.short_date_time = moment(entry.time).format("DD MMM, h:mm a")
-    entry.log = "#{entry.tag} #{entry.message}"#.replace(/(\r\n|\n|\r)/gm,"\r\n");
+    entry.log = "#{entry.message}".replace(/\s?\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d+Z|\s?\d{4}-\d{2}-\d{2}[_T]\d{2}:\d{2}:\d{2}.\d{5}|\s?\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}/gm, "")#.replace(/(\r\n|\n|\r)/gm,"\r\n");
 
     # add any 'new' processes to an array
     @_processes.push entry.tag unless _.includes(@_processes, entry.tag)
@@ -117,17 +117,14 @@ class Logs
 
   #
   update_status: (status) =>
-
-    $target = @$node.find("table")
-
-    $target.removeClass @currentStatus
-    $target.addClass status
+    @$thing.removeClass @currentStatus
+    @$thing.addClass status
 
     @currentStatus = status
 
   #
   clear_status: =>
-    @$node.find("table").removeClass @currentStatus
+    @$thing.removeClass @currentStatus
     @currentStatus = ''
 
   # _activateToggles
@@ -141,8 +138,8 @@ class Logs
 
       #
       log = $(e.currentTarget).data("toggle")
-      @$table.removeClass "live historic"
-      @$table.addClass log
+      @$thing.removeClass "live historic"
+      @$thing.addClass log
 
       #
       @[@currentLog].unload()

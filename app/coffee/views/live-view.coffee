@@ -67,12 +67,14 @@ module.exports = class LiveView
     # build the entry
     $entry = $(
       "<div class=entry style='#{entry.styles};'>
-        <div class=time>#{entry.short_date_time}</div>
+        <div class=meta time>#{entry.short_date_time}</div>
+        <div class=meta id>#{entry.id}</div>
+        <div class=meta tag>#{entry.tag}</div>
       </div>"
     )
 
     #
-    $message = $("<span class='message' style='#{entry.styles};'>#{entry.id} :: #{entry.log}</span>")
+    $message = $("<span class='message' style='#{entry.styles};'>#{entry.log}</span>")
       .data('$entry', $entry)
 
     #

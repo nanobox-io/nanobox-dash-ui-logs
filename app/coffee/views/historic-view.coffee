@@ -99,12 +99,14 @@ module.exports = class Historic
     # build the entry
     $entry = $(
       "<div class=entry style='#{entry.styles}; opacity:0;'>
-        <div class=time>#{entry.short_date_time}</div>
+        <div class=meta time>#{entry.short_date_time}</div>
+        <div class=meta id>#{entry.id}</div>
+        <div class=meta tag>#{entry.tag}</div>
       </div>"
     ).delay(delay).animate({opacity:1}, {duration:250})
 
     #
-    $message = $("<span class='message' style='#{entry.styles}; opacity:0;'>#{entry.id} :: #{entry.log}</span>")
+    $message = $("<span class='message' style='#{entry.styles}; opacity:0;'>#{entry.log}</span>")
       .data('$entry', $entry)
       .delay(delay).animate({opacity:1}, {duration:250})
 
