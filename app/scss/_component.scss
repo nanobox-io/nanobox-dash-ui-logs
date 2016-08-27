@@ -1,44 +1,40 @@
-.nanobox-dash-ui-logs                 {margin:8px 0px;
-  @mixin panel_left_defaults          {min-width:10%; width:20%; max-width:20%;}
-  @mixin panel_right_defaults         {min-width:80%; width:80%; max-width:90%;}
+.nanobox-dash-ui-logs                     {margin:8px 0px;
+  @mixin panel_left_defaults              {min-width:10%; width:20%; max-width:20%;}
+  @mixin panel_right_defaults             {min-width:80%; width:80%; max-width:90%;}
 
   //
-  .log-display                        {display:flex; flex-direction:column;
-    // & > *                             {display:inline-table;}
+  .log-display                            {display:flex; flex-direction:column;
 
     //
-    // td                                {position:relative;}
+    #status                               {@include align("horizontal"); @include font-size(13px); display:none; z-index:1; position:absolute; top:150px; padding:5px 10px; text-align:center; background:$dashboard_64;}
+    #status:before                        {content:""; color:$dashboard_73;}
+    &.communication-error    #status      {display:inline-block; &:before {/*@include animation('pulsate 1.2s infinite');*/ display:block; content:"Unable to retrieve logs. Please try again in a moment."; color:$dashboard_129;}}
+    &.connecting-live        #status      {display:inline-block; &:before {/*@include animation('pulsate 1.2s infinite');*/ display:block; content:"Connecting Live Stream...";}}
+    &.awaiting-data          #status      {display:inline-block; &:before {/*@include animation('pulsate 1.2s infinite');*/ display:block; content:"Connected! Listening for your app to log something..."; color:$dashboard_106;}}
+    &.retrieving-history-log #status      {display:inline-block; &:before {/*@include animation('pulsate 1.2s infinite');*/ display:block; content:"Retrieving Historical Data...";}}
+    &.loading-records        #status      {display:inline-block; &:before {/*@include animation('pulsate 1.2s infinite');*/ display:block; content:"Loading Records...";}}
+    &.no-historic            #status      {display:inline-block; &:before {/*@include animation("slowFadeOut 3s forwards");*/ display:block; content:'No Historical Data Found...'; color:$dashboard_113;}}
 
-    //
-    #status                           {@include align("horizontal"); @include font-size(13px); display:none; z-index:1; position:absolute; top:150px; padding:5px 10px; text-align:center; background:$dashboard_64;}
-    #status:before                    {content:""; color:$dashboard_73;}
-    &.communication-error    #status  {display:inline-block; &:before {/*@include animation('pulsate 1.2s infinite');*/ display:block; content:"Unable to retrieve logs. Please try again in a moment."; color:$dashboard_129;}}
-    &.connecting-live        #status  {display:inline-block; &:before {/*@include animation('pulsate 1.2s infinite');*/ display:block; content:"Connecting Live Stream...";}}
-    &.awaiting-data          #status  {display:inline-block; &:before {/*@include animation('pulsate 1.2s infinite');*/ display:block; content:"Connected! Listening for your app to log something..."; color:$dashboard_106;}}
-    &.retrieving-history-log #status  {display:inline-block; &:before {/*@include animation('pulsate 1.2s infinite');*/ display:block; content:"Retrieving Historical Data...";}}
-    &.loading-records        #status  {display:inline-block; &:before {/*@include animation('pulsate 1.2s infinite');*/ display:block; content:"Loading Records...";}}
-    &.no-historic            #status  {display:inline-block; &:before {/*@include animation("slowFadeOut 3s forwards");*/ display:block; content:'No Historical Data Found...'; color:$dashboard_113;}}
-
-    .logs-panel                     {@include panel_right_defaults; @include font-size(15px); display:flex; align-items:center; align-self:flex-end;
+    .logs-panel                           {@include panel_right_defaults; @include font-size(15px); display:flex; align-items:center; align-self:flex-end;
 
       //
-      .toggles                      {display:flex; align-items:flex-end; flex:1 0 30%;
-        .toggle                     {@include font-size(14px); display:flex; flex-direction:column; align-items:center; flex:0 1 50%; color:$dashboard_20; border-right:1px solid $dashboard_11; text-align:center;
-          label                     {display:flex; flex-direction:column; align-items:center; span {margin:5px 0px;}}
+      .toggles                            {display:flex; align-items:flex-end; flex:1 0 30%;
+        .toggle                           {@include font-size(14px); display:flex; flex-direction:column; align-items:center; flex:0 1 50%; color:$dashboard_20; border-right:1px solid $dashboard_11; text-align:center;
+          label                           {display:flex; flex-direction:column; align-items:center; span {margin:5px 0px;}}
         }
       }
 
       //
-      .descriptions                 {flex:1 0 70%; padding:10px 20px;
-        .description                {@include font-size(14px); flex:0 1 60%; margin:0px;}
+      .descriptions                       {flex:1 0 70%; padding:10px 20px;
+        .description                      {@include font-size(14px 21px); flex:0 1 60%; margin:0px;}
       }
     }
 
     //
-    .log-output                     {display:flex; flex-direction:column;
+    .log-output                           {display:flex; flex-direction:column; position:fixed; left:0px; bottom:0px; width:100%; height:75%;
 
       //
-      .controls                     {display:flex; align-items:center; justify-content:flex-end; position:fixed; bottom:550px; left:0%; width:100%; height:50px; padding:0px 10px; background:$white;
+      .controls                           {display:flex; align-items:center; justify-content:flex-end; width:100%; height:50px; padding:0px 10px; background:$white;
 
         //
         // #filter-logs                {display:flex; align-items:center; width:75%; float:left; margin:0px; padding:0px;
@@ -47,109 +43,107 @@
         // }
 
         //
-        #follow-logs                {@include font-size(12px); position:relative; float:right; padding:2px; cursor:pointer; color:$dashboard_49;
-          &:before                  {display:inline-block; float:right; color:$dashboard_49; text-align:center;}
-          svg                       {position:relative; top:1px; left:-5px; transform:scale(0.95);
-            path                    {stroke:$dashboard_49;}
-            circle                  {fill:$dashboard_49;}
+        #follow-logs                      {@include font-size(12px); position:relative; float:right; padding:2px; cursor:pointer; color:$dashboard_49;
+          &:before                        {display:inline-block; float:right; color:$dashboard_49; text-align:center;}
+          svg                             {position:relative; top:1px; left:-5px; transform:scale(0.95);
+            path                          {stroke:$dashboard_49;}
+            circle                        {fill:$dashboard_49;}
           }
 
           //
-          &:hover                   {
-            &:before                {color:$dashboard_73;}
-            svg                     {path {stroke:$dashboard_73;} circle {fill:$dashboard_73;}}
+          &:hover                         {
+            &:before                      {color:$dashboard_73;}
+            svg                           {path {stroke:$dashboard_73;} circle {fill:$dashboard_73;}}
           }
 
           //
-          &.locked                  {
-            &:before                {content:'Follow Log';}
-            &.active                {
-              &:before              {color:$dashboard_125;}
-              svg                   {path {stroke:$dashboard_125;} circle {fill:$dashboard_125;}}
+          &.locked                        {
+            &:before                      {content:'Follow Log';}
+            &.active                      {
+              &:before                    {color:$dashboard_125;}
+              svg                         {path {stroke:$dashboard_125;} circle {fill:$dashboard_125;}}
             }
           }
 
           //
-          &.following               {padding:0px; position:fixed; top:8px;
-            &:before                {content:''; display:none;}
-            svg                     {path {stroke:$dashboard_29;} circle {fill:$dashboard_29;}}
+          &.following                     {padding:0px; position:fixed; top:8px;
+            &:before                      {content:''; display:none;}
+            svg                           {path {stroke:$dashboard_29;} circle {fill:$dashboard_29;}}
 
             //
-            &:hover                 {@include border-radius(50px, 50px, 50px, 50px); padding:5px; color:$dashboard_133; background:$dashboard_125;
-              &:before              {content:'Follow Log'; display:inline-block; margin:0px 5px; color:$dashboard_113;}
-              svg                   {left:0px; path {stroke:$dashboard_133;} circle {fill:$dashboard_133;}}
+            &:hover                       {@include border-radius(50px, 50px, 50px, 50px); padding:5px; color:$dashboard_133; background:$dashboard_125;
+              &:before                    {content:'Follow Log'; display:inline-block; margin:0px 5px; color:$dashboard_113;}
+              svg                         {left:0px; path {stroke:$dashboard_133;} circle {fill:$dashboard_133;}}
             }
 
             //
-            &.active                {
-              svg                   {path {stroke:$dashboard_133;} circle {fill:$dashboard_133;}}
-              &:hover               {color:$dashboard_29; background:$dashboard_56;
-                &:before            {content:'Unfollow'; color:$dashboard_29;}
-                svg                 {path {stroke:$dashboard_29;} circle {fill:$dashboard_29;}}
+            &.active                      {
+              svg                         {path {stroke:$dashboard_133;} circle {fill:$dashboard_133;}}
+              &:hover                     {color:$dashboard_29; background:$dashboard_56;
+                &:before                  {content:'Unfollow'; color:$dashboard_29;}
+                svg                       {path {stroke:$dashboard_29;} circle {fill:$dashboard_29;}}
               }
             }
           }
         }
 
         //
-        #view-more-logs             {@include font-size(12px); position:relative; float:right; padding:2px; color:$dashboard_49; cursor:pointer;
-          &:before                  {content:"View More";}
+        #view-more-logs                   {@include font-size(12px); position:relative; float:right; padding:2px; color:$dashboard_49; cursor:pointer;
+          &:before                        {content:"View More";}
         }
       }
 
       //
-      .output                     {display:flex; position:fixed; right:0px; bottom:0px; left:0px; width:100%; min-height:550px; max-height:550px; overflow-x:hidden; overflow-y:scroll;
+      .output                             {display:flex; width:100%; overflow-x:hidden; overflow-y:scroll; min-height:75%; max-height:100%;
 
-        & > *                     {height:100%;}
+        & > *                             {min-height:75%; height:100%;}
 
         //
-        .entries                  {@include panel_left_defaults; display:flex; flex-direction:column; flex:1 0 20%; margin:0px; padding:15px 0px; background:$dashboard_29;
-          .entry                  {@include font-size(11px, 15px); display:flex; text-align:center; width:100%; padding:0px 15px;
-            .meta                 {margin-right:5px;}
+        .entries                          {@include panel_left_defaults; display:flex; flex-direction:column; flex:1 0 20%; margin:0px; padding:15px 0px; background:$dashboard_29;
+          .entry                          {@include font-size(11px, 15px); display:flex; text-align:center; width:100%; padding:0px 15px;
+            .meta                         {margin-right:5px;}
           }
         }
 
         //
-        .messages                 {@include panel_right_defaults; display:flex; flex-direction:column; flex:1 0 80%; margin:0px; padding:15px 0px; color:$dashboard_92; letter-spacing:0.5px; background:$dashboard_64; overflow-x:scroll; overflow-y:hidden;
-          .message                {@include font-size(11px, 15px); display:flex; text-align:center; width:100%; padding:0px 15px; font-family:$monaco; white-space:pre;}
+        .messages                         {@include panel_right_defaults; display:flex; flex-direction:column; flex:1 0 80%; margin:0px; padding:15px 0px; color:$dashboard_92; letter-spacing:0.5px; background:$dashboard_64; overflow-x:scroll; overflow-y:hidden;
+          .message                        {@include font-size(11px, 15px); display:flex; text-align:center; width:100%; padding:0px 15px; font-family:$monaco; white-space:pre;}
         }
       }
     }
 
     //
     // disable all displays by default
-    .logs-panel                         {.description {@include transition(); display:none; opacity:0;}}
-    .log-output                         {
-      .controls                         {#filter-logs {display:none;} #follow-logs {display:none;} #view-more-logs {display:none;}}
+    .logs-panel                           {.description {@include transition(); display:none; opacity:0;}}
+    .log-output                           {
+      .controls                           {#filter-logs {display:none;} #follow-logs {display:none;} #view-more-logs {display:none;}}
       .entries {display:none;}
     }
 
     // when live logs; turn on live log displays
-    &.live                              {
-      // .logs-panel                     {.toggle.live {@extend .checked;}}
-      .description.live                 {display:inline-block; opacity:1;}
+    &.live                                {
+      .description.live                   {display:block; opacity:1;}
       .log-panel
-      .log-output                       {
-        .controls                       {#filter-logs {display:inline-block;} #follow-logs {display:inline-block;}}
-        .entries{display:inline-block;}
+      .log-output                         {
+        .controls                         {#filter-logs {display:block;} #follow-logs {display:block;}}
+        .entries                          {display:block;}
       }
     }
 
     // when historic logs; turn on historic log displays
-    &.historic                        {
-      // .logs-panel                     {.toggle.historic {@extend .checked;}}
-      .description.historic           {display:inline-block; opacity:1;}
-      .log-output                     {
-        .controls                     {#filter-logs {display:inline-block;} #view-more-logs {display:inline-block;}}
-        .entries                      {display:inline-block;}
+    &.historic                            {
+      .description.historic               {display:block; opacity:1;}
+      .log-output                         {
+        .controls                         {#filter-logs {display:block;} #view-more-logs {display:block;}}
+        .entries                          {display:block;}
       }
     }
 
     //
-    &.loading                         {
-      .logs-panel                     {cursor:wait; .toggle {pointer-events:none;}}
-      .log-output                     {
-        .controls                     {#view-more-logs {pointer-events:none; &:before {content:"Loading..." !important;}}}
+    &.loading                             {
+      .logs-panel                         {cursor:wait; .toggle {pointer-events:none;}}
+      .log-output                         {
+        .controls                         {#view-more-logs {pointer-events:none; &:before {content:"Loading..." !important;}}}
       }
     }
   }

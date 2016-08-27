@@ -20,5 +20,5 @@ window.init = () ->
     }
 
   #
-  logs = new nanobox.Logs $(".logs"), options
+  logs = new nanobox.Logs $("body"), options
   logs.build()
