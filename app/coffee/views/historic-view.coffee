@@ -99,8 +99,8 @@ module.exports = class Historic
     # build the entry
     $entry = $(
       "<div class=entry style='#{entry.styles}; opacity:0;'>
-        <div class=meta time>#{entry.short_date_time}</div>
-        <div class=meta id>#{entry.id}</div>
+        <div class=meta time>#{entry.short_date_time}&nbsp;&nbsp;::&nbsp;&nbsp;</div>
+        <div class=meta id>#{entry.id}&nbsp;&nbsp;::&nbsp;&nbsp;</div>
         <div class=meta tag>#{entry.tag}</div>
       </div>"
     ).delay(delay).animate({opacity:1}, {duration:250})
