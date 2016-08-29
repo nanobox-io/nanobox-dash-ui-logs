@@ -100,7 +100,7 @@
 
         //
         .entries                          {@include panel_left_defaults; flex:1 0 20%; margin:0px; background:$dashboard_29;
-          .entry                          {@include font-size(11px, 15px); display:flex; text-align:center; width:100%; padding:0px 15px;
+          .entry                          {@include font-size(11px, 15px); display:flex; text-align:center; width:100%; padding:0px 15px; white-space:nowrap;
             &:first-child                 {margin-top:10px;}
             &:last-child                  {margin-bottom:10px;}
           }
