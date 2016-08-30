@@ -1,98 +1,77 @@
-.nanobox-dash-ui-logs                   {display:flex; flex-direction:column;
+.nanobox-dash-ui-logs                 {display:flex; flex-direction:column;
 
   //
-  .log-panel                            {@include font-size(15px); display:flex; align-items:center; align-self:flex-end; width:80%;
+  .log-panel                          {@include font-size(15px); display:flex; align-items:center; align-self:flex-end; width:80%;
 
     //
-    .toggles                            {display:flex; align-items:flex-end; flex:1 0 30%;
-      .toggle                           {@include font-size(14px); display:flex; flex-direction:column; align-items:center; flex:0 1 50%; color:$dashboard_20; border-right:1px solid $dashboard_11; text-align:center;
-        label                           {display:flex; flex-direction:column; align-items:center; cursor:pointer; span {margin:5px 0px;}}
+    .toggles                          {display:flex; align-items:flex-end; flex:1 0 30%;
+      .toggle                         {@include font-size(14px); display:flex; flex-direction:column; align-items:center; flex:0 1 50%; color:$dashboard_20; border-right:1px solid $dashboard_11; text-align:center;
+        label                         {display:flex; flex-direction:column; align-items:center; cursor:pointer; span {margin:5px 0px;}}
       }
     }
 
     //
-    .descriptions                       {flex:1 0 70%; padding:10px 20px;
-      .description                      {@include font-size(14px 21px); flex:0 1 60%; margin:0px;}
+    .descriptions                     {flex:1 0 70%; padding:10px 20px;
+      .description                    {@include font-size(14px 21px); flex:0 1 60%; margin:0px;}
     }
   }
 
   //
-  .log-output                           {display:flex; flex-direction:column; width:100%; margin-top:27px;
+  .log-output                         {display:flex; flex-direction:column; width:100%; margin-top:27px;
 
     //
-    header                              {display:flex; align-items:center; width:100%; height:45px; padding:0px 12px; background:$white;
+    header                            {display:flex; align-items:center; width:100%; height:45px; padding:0px 12px; background:$white;
 
       //
-      &:before                          {@include font-size(12px); color:$dashboard_73; content:"";}
+      .controls                       {display:flex; align-items:center; margin-left:auto;
 
-      //
-      .controls                         {display:flex; align-items:center; margin-left:auto;
-
-        & > *                           {@include font-size(12px); color:$dashboard_49; cursor:pointer;
-          &:not(:last-child)            {margin-right:8px; padding-right:8px; border-right:1px solid $dashboard_49;}
+        & > *                         {@include font-size(12px); color:$dashboard_49; cursor:pointer;
+          &:not(:last-child)          {margin-right:8px; padding-right:8px; border-right:1px solid $dashboard_49;}
         }
 
         //
-        #follow-logs                    {display:flex; align-items:center;
-          &:after                       {content:'Follow Log'; margin-left:8px; color:$dashboard_49;}
-          svg                           {position:relative; top:1px; path {stroke:$dashboard_49;} circle {fill:$dashboard_49;}}
-          &:hover                       {
-            &:after                     {color:$dashboard_73;}
-            svg                         {path {stroke:$dashboard_73;} circle {fill:$dashboard_73;}}
+        #follow-logs                  {display:flex; align-items:center;
+          &:after                     {content:'Follow Log'; margin-left:8px; color:$dashboard_49;}
+          svg                         {position:relative; top:1px; path {stroke:$dashboard_49;} circle {fill:$dashboard_49;}}
+          &:hover                     {
+            &:after                   {color:$dashboard_73;}
+            svg                       {path {stroke:$dashboard_73;} circle {fill:$dashboard_73;}}
           }
 
           //
-          &.locked                      {
-            &.active                    {
-              &:after                   {color:$dashboard_125;}
-              svg                       {path {stroke:$dashboard_125;} circle {fill:$dashboard_125;}}
-            }
-          }
-
-          //
-          &.following                   {padding:0px; position:fixed; top:8px; border:none;
-            &:after                     {color:$dashboard_73;}
-            svg                         {path {stroke:$dashboard_73;} circle {fill:$dashboard_73;}}
-            &:hover                     {
-              &:after                   {color:$dashboard_113;}
-              svg                       {left:0px; path {stroke:$dashboard_113;} circle {fill:$dashboard_113;}}
-            }
-
-            //
-            &.active                    {
-              &:after                   {content:'Unfollow'; color:$dashboard_125;}
-              svg                       {path {stroke:$dashboard_125;} circle {fill:$dashboard_125;}}
-              &:hover                   {
-                &:after                 {color:$dashboard_133;}
-                svg                     {path {stroke:$dashboard_133;} circle {fill:$dashboard_133;}}
-              }
+          &.active                    {
+            &:after                   {content:'Unfollow'; color:$dashboard_125;}
+            svg                       {path {stroke:$dashboard_125;} circle {fill:$dashboard_125;}}
+            &:hover                   {
+              &:after                 {color:$dashboard_133;}
+              svg                     {path {stroke:$dashboard_133;} circle {fill:$dashboard_133;}}
             }
           }
         }
 
         //
-        #view-more-logs                   {&:before {content:"View More";}}
+        #view-more-logs               {&:before {content:"View More";}}
 
         //
-        #fullscreen-toggle                {&:before {content:"Expand";}}
+        #fullscreen-toggle            {&:before {content:"Expand";}}
       }
     }
 
     //
-    .output                             {display:flex; width:100%;
+    .output                           {display:flex; width:100%;
 
-      & > *                             {min-height:400px; padding:10px 0px 10px 0px;}
+      & > *                           {min-height:400px; padding:10px 0px 10px 0px;}
 
       //
-      .entries                          {flex:1 0 25%; margin:0px; background:$dashboard_29;
-        .entry                          {@include font-size(11px, 15px); display:flex; text-align:center; width:100%; padding:0px 15px; white-space:nowrap;
+      .entries                        {flex:1 0 0%; margin:0px; background:$dashboard_29;
+        .entry                        {@include font-size(11px, 15px); display:flex; text-align:center; width:100%; padding:0px 15px; font-family:$monaco; white-space:nowrap;
         }
       }
 
       //
-      .messages                         {flex:1 1 75%; position:relative; margin:0px; color:$dashboard_92; letter-spacing:0.5px; overflow-x:auto; overflow-y:hidden; background:$dashboard_64;
-        &:before                        {@include font-size(13px); display:none; content:""; position:absolute; top:150px; left:0px; width:100%; padding:5px 10px; text-align:center; background:$dashboard_64;}
-        .message                        {@include font-size(11px, 15px); display:flex; text-align:center; width:100%; padding:0px 15px; font-family:$monaco; white-space:nowrap;}
+      .messages                       {flex:1 1 100%; position:relative; margin:0px; color:$dashboard_92; letter-spacing:0.5px; overflow-x:auto; overflow-y:hidden; background:$dashboard_64;
+        &:before                      {@include font-size(13px); @include align("horizontal"); display:none; content:""; position:absolute; top:175px; padding:5px 15px; text-align:center; background:$dashboard_64;}
+        .message                      {@include font-size(11px, 15px); display:flex; text-align:center; width:100%; padding:0px 15px; font-family:$monaco; white-space:nowrap;}
       }
     }
   }
@@ -107,32 +86,32 @@
 
   //
   // disable all displays by default
-  .log-panel                            {.description {@include transition(); display:none; opacity:0;}}
-  .log-output                           {
-    .controls                           {#follow-logs {display:none;} #view-more-logs {display:none;}}
+  .log-panel                          {.description {@include transition(); display:none; opacity:0;}}
+  .log-output                         {
+    .controls                         {#follow-logs {display:none;} #view-more-logs {display:none;}}
   }
 
   // when live logs; turn on live log displays
-  &.live                                {
-    .description.live                   {display:block; opacity:1;}
-    .log-output                         {
-      .controls                         {#follow-logs {display:block;}}
+  &.live                              {
+    .description.live                 {display:block; opacity:1;}
+    .log-output                       {
+      .controls                       {#follow-logs {display:block;}}
     }
   }
 
   // when historic logs; turn on historic log displays
-  &.historic                            {
-    .description.historic               {display:block; opacity:1;}
-    .log-output                         {
-      .controls                         {#follow-logs {display:none;} #view-more-logs {display:block;}}
+  &.historic                          {
+    .description.historic             {display:block; opacity:1;}
+    .log-output                       {
+      .controls                       {#follow-logs {display:none;} #view-more-logs {display:block;}}
     }
   }
 
   //
-  &.loading                             {
-    .log-panel                          {cursor:wait; .toggle {pointer-events:none;}}
-    .log-output                         {
-      .controls                         {#view-more-logs {pointer-events:none; &:before {content:"Loading..." !important;}}}
+  &.loading                           {
+    .log-panel                        {cursor:wait; .toggle {pointer-events:none;}}
+    .log-output                       {
+      .controls                       {#view-more-logs {pointer-events:none; &:before {content:"Loading..." !important;}}}
     }
   }
 
@@ -140,7 +119,9 @@
   &.expanded                          {height:100%; margin:0px;
     .log-panel                        {display:none;}
     .log-output                       {margin:0px;
-      .controls                       {#fullscreen-toggle {&:before {content:"Close" !important;}}}
+      header                          {position:fixed; top:0px; left:0px; width:100%; z-index:1;
+        .controls                     {#fullscreen-toggle {&:before {content:"Close" !important;}}}
+      }
       .output                         {height:100%;
         & > *                         {min-height:100vh;}
       }

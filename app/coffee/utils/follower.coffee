@@ -9,16 +9,8 @@ module.exports = class Follower
     #
     @options.trigger.click (e) => @_toggleFollowLog()
 
-    #
+    # unfollow if the user scrolls [100px] away from the bottom of the page
     $(window).scroll (e) =>
-
-      # detach the follow link as it scrolls off the page
-      @options.trigger.removeClass('locked').addClass('following') if (@options.approach - window.scrollY <= -50)
-
-      # attach the follow link as it comes back into view
-      @options.trigger.removeClass('following').addClass('locked') if (@options.approach - window.scrollY >= -50)
-
-      # unfollow if the user scrolls [100px] away from the bottom of the page
       @_unfollowLog() if ((window.innerHeight + window.scrollY) + 50) <= document.body.scrollHeight
 
   #
