@@ -1,4 +1,3 @@
-#
 module.exports = class LiveView
 
   #
@@ -10,32 +9,24 @@ module.exports = class LiveView
     #
     @tags = @options.tags
 
-    #
-    @mistOptions = {
-      logging: @options.logging
-    }
-
-    # connect to mist
-    @main.update_status "connecting-live"
-    @mist = new Mist(@mistOptions)
+    # connect to mist; we connect on instantiation to only connect once, then we
+    # subscribe/unsubscribe as we want to receive logs
+    @mist = new Mist({logging: @options.logging})
     @mist.connect(@options.url)
 
-    # subscribe once the socket is open
-    # @mist.on "mist:_socket.onopen", () => @mist.subscribe(@tags)
-    @mist.on "mist:_socket.reconnect", (key, data) => @main.update_status "connecting-live"
-    @mist.on "mist:_socket.onerror", (key, data) => @main.update_status "communication-error"
-    @mist.on "mist:_socket.onclose", (key, data) => @main.update_status "communication-error"
-
-    window.mist = @mist
+    # handle mist events
+    @mist.on "mist:_socket.onopen", (key, data)    => @main.updateStatus "awaiting-data"
+    @mist.on "mist:_socket.reconnect", (key, data) => @main.updateStatus "connecting-live"
+    @mist.on "mist:_socket.onerror", (key, data)   => @main.updateStatus "communication-error"
+    @mist.on "mist:_socket.onclose", (key, data)   => @main.updateStatus "communication-error"
+    @mist.on "mist:command.subscribe", (key, data) => @main.updateStatus "connecting-live"
 
     #
     @_handleDataPublish()
 
-  # NOTE: this may encounter a race condition with the socket connecting on intial
-  # load if so, we'll have to change it
   # when this view is loaded...
   load: () ->
-    @main.update_status "awaiting-data"
+    @main.currentLog = "liveView"
     @mist.subscribe(@tags)
 
   # when this view is unloaded...
@@ -43,20 +34,17 @@ module.exports = class LiveView
 
   # load any logs that are published for the tags we're interested in
   _handleDataPublish: () ->
+
     # because we're only subscribing to one tag the handler needs to be formatted
     # this way rather than "mist:command.publish:[tags]"; once we subscribe to
     # multiple tags we'll do it that way
     @mist.on "mist:command.publish:#{@tags.join()}", (key, data) =>
-      @main.clear_status()
-
-      log = JSON.parse(data.data)
-
-      window.scrollTo(0, document.body.scrollHeight) if @main.following_log
+      @main.clearStatus()
 
       # this should stop any mist entriest that come across with rogue data that
       # we won't be able to format as a log
       try
-        @_addEntry(@main.format_entry(log))
+        @_addEntry(@main.format_entry(JSON.parse(data.data)))
 
   # this does the inserting of the HTML
   _addEntry : (entry, delay) ->
@@ -66,17 +54,21 @@ module.exports = class LiveView
 
     # build the entry
     $entry = $(
-      "<div class=entry style='#{entry.styles};'>
+      "<div class=entry style='#{entry.styles}; opacity:0;'>
         <div class=meta time>#{entry.short_date_time}&nbsp;&nbsp;::&nbsp;&nbsp;</div>
         <div class=meta id>#{entry.id}&nbsp;&nbsp;::&nbsp;&nbsp;</div>
         <div class=meta tag>#{entry.tag}</div>
       </div>"
-    )
+    ).delay(delay).animate({opacity:1}, {duration:100})
 
     #
-    $message = $("<span class='message' style='#{entry.styles};'>#{entry.log}</span>")
+    $message = $("<span class='message' style='#{entry.styles}; opacity:0;'>#{entry.log}</span>")
       .data('$entry', $entry)
+      .delay(delay).animate({opacity:1}, {duration:100})
 
-    #
-    @main.$entries?.prepend $entry
-    @main.$stream?.prepend $message
+    # historic logs prepend entries so it looks like logs are streaming upwards;
+    # we stagger prepending to give it a nice streaming effect
+    setTimeout (=>
+      @main.$entries?.append $entry
+      @main.$stream?.append $message
+    ), delay

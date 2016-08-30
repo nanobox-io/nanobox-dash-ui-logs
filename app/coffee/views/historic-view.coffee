@@ -28,13 +28,16 @@ module.exports = class Historic
     # setup event handlers
     @_handleDataLoad()
     @_handleDataError()
-    @_handleViewMoreLogs()
 
-    # we don't need to call load here for the inital set of logs, thats done by
-    # main
+    # load more logs
+    @$node.find('#view-more-logs').click () => @_loadHistoricalData()
+    @on "historic.loading", () => @$node.addClass("loading")
+    @on "historic.loaded", () => @$node.removeClass("loading")
 
   # when this view is loaded...
-  load: () -> @_loadHistoricalData()
+  load: () ->
+    @main.currentLog = "historicView"
+    @_loadHistoricalData()
 
   # when this view is unloaded...
   unload: () -> delete @lastEntry
@@ -44,7 +47,7 @@ module.exports = class Historic
     @logvac.on "logvac:_xhr.load", (key, data) =>
 
       #
-      @main.update_status "loading-records"
+      @main.updateStatus "loading-records"
 
       # parse log data
       try
@@ -68,10 +71,7 @@ module.exports = class Historic
   _handleDataError: () ->
     @logvac.on "logvac:_xhr.error", (key, data) =>
       @_resetView()
-      @main.update_status "communication-error"
-
-  # load more logs
-  _handleViewMoreLogs: () -> @$node.find('#view-more-logs').click () => @_loadHistoricalData()
+      @main.updateStatus "communication-error"
 
   # unless we're already loading log, get the next set of logs (based off the last
   # entry of the previous set)
@@ -81,7 +81,7 @@ module.exports = class Historic
       @fire "historic.loading"
 
       #
-      @main.update_status "retrieving-history-log"
+      @main.updateStatus "retrieving-history-log"
 
       # get the next set of logs from the last time of the previous set
       @logvacOptions.start = (@lastEntry?.utime || 0)
@@ -103,14 +103,15 @@ module.exports = class Historic
         <div class=meta id>#{entry.id}&nbsp;&nbsp;::&nbsp;&nbsp;</div>
         <div class=meta tag>#{entry.tag}</div>
       </div>"
-    ).delay(delay).animate({opacity:1}, {duration:250})
+    ).delay(delay).animate({opacity:1}, {duration:100})
 
     #
     $message = $("<span class='message' style='#{entry.styles}; opacity:0;'>#{entry.log}</span>")
       .data('$entry', $entry)
-      .delay(delay).animate({opacity:1}, {duration:250})
+      .delay(delay).animate({opacity:1}, {duration:100})
 
-    #
+    # historic logs prepend entries so it looks like logs are streaming upwards;
+    # we stagger prepending to give it a nice streaming effect
     setTimeout (=>
       @main.$entries?.prepend $entry
       @main.$stream?.prepend $message
@@ -118,6 +119,6 @@ module.exports = class Historic
 
   #
   _resetView: () ->
-    @fire "historic.loaded"
+    @main.updateStatus ""
     @loading = false
-    @main.update_status ""
+    @fire "historic.loaded"
