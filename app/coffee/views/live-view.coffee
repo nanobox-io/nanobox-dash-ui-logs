@@ -12,7 +12,10 @@ module.exports = class LiveView
     # connect to mist; we connect on instantiation to only connect once, then we
     # subscribe/unsubscribe as we want to receive logs
     @mist = new Mist({logging: @options.logging})
-    @mist.connect(@options.url)
+    try
+      @mist.connect(@options.url)
+    catch
+      @main.updateStatus "communication-error"
 
     # handle mist events
     @mist.on "mist:_socket.onopen", (key, data)    => @main.updateStatus "awaiting-data"
