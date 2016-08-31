@@ -18,11 +18,10 @@ module.exports = class LiveView
       @main.updateStatus "communication-error"
 
     # handle mist events
-    @mist.on "mist:_socket.onopen", (key, data)    => @main.updateStatus "awaiting-data"
+    @mist.on "mist:_socket.onopen", (key, data)    => @main.updateStatus "connecting-live"
     @mist.on "mist:_socket.reconnect", (key, data) => @main.updateStatus "connecting-live"
     @mist.on "mist:_socket.onerror", (key, data)   => @main.updateStatus "communication-error"
     @mist.on "mist:_socket.onclose", (key, data)   => @main.updateStatus "communication-error"
-    @mist.on "mist:command.subscribe", (key, data) => @main.updateStatus "connecting-live"
 
     #
     @_handleDataPublish()
@@ -31,6 +30,7 @@ module.exports = class LiveView
   load: () ->
     @main.currentLog = "liveView"
     @mist.subscribe(@tags)
+    @main.updateStatus "awaiting-data"
 
   # when this view is unloaded...
   unload: () -> @mist.unsubscribe(@tags)
