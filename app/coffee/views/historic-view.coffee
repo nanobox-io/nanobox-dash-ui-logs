@@ -49,6 +49,9 @@ module.exports = class Historic
       #
       @main.updateStatus "loading-records"
 
+      # if there is no data reset the view and return early
+      if data.length == 0 then @_resetView(); return
+
       # parse log data
       try
         @logs = JSON.parse(data)
