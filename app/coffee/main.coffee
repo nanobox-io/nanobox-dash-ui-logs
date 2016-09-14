@@ -66,8 +66,6 @@ class Logs
   # }
   format_entry: (entry) =>
 
-    console.log "ENTRY??", entry
-
     entry.short_date_time = moment(entry.time).format("DD MMM, h:mm a")
     entry.log = "#{entry.message}".replace(/\s?\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d+Z|\s?\d{4}-\d{2}-\d{2}[_T]\d{2}:\d{2}:\d{2}.\d{5}|\s?\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}|\s?\[\d{2}\/\w{3}\/\d{4}\s\d{2}:\d{2}:\d{2}\]?/gm, "")#.replace(/(\r\n|\n|\r)/gm,"\r\n");
 

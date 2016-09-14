@@ -48,9 +48,11 @@ module.exports = class LiveView
       # we won't be able to format as a log
       try
         @_addEntry(@main.format_entry(JSON.parse(data.data)))
+      catch
+        console.error "Failed to parse data - #{data}"
 
   # this does the inserting of the HTML
-  _addEntry : (entry, delay) ->
+  _addEntry : (entry) ->
 
     # if the log has no length add a space
     entry.log = "&nbsp;" if (entry.log.length == 0)
@@ -62,16 +64,13 @@ module.exports = class LiveView
         <div class=meta id>#{entry.id}&nbsp;&nbsp;::&nbsp;&nbsp;</div>
         <div class=meta tag>#{entry.tag}</div>
       </div>"
-    ).delay(delay).animate({opacity:1}, {duration:100})
+    ).animate({opacity:1}, {duration:100})
 
     #
     $message = $("<span class='message' style='#{entry.styles}; opacity:0;'>#{entry.log}</span>")
       .data('$entry', $entry)
-      .delay(delay).animate({opacity:1}, {duration:100})
+      .animate({opacity:1}, {duration:100})
 
-    # historic logs prepend entries so it looks like logs are streaming upwards;
-    # we stagger prepending to give it a nice streaming effect
-    setTimeout (=>
-      @main.$entries?.append $entry
-      @main.$stream?.append $message
-    ), delay
+    #
+    @main.$entries?.append $entry
+    @main.$stream?.append $message
