@@ -49,14 +49,20 @@ module.exports = class Historic
       #
       @main.updateStatus "loading-records"
 
+      console.log "LENGTH?", data.length
+
       # if there is no data reset the view and return early
       if data.length == 0 then @_resetView(); return
+
+      console.log "HAS DATA!"
 
       # parse log data
       try
         @logs = JSON.parse(data)
       catch
         console.error "Unable to parse data - #{data}"
+
+      console.log "LOGS!", @logs, @logs[0]
 
       # get the last entry and format it
       @lastEntry = @logs[0]
