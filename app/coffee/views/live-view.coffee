@@ -9,16 +9,11 @@ module.exports = class LiveView
     #
     @tags = @options.tags
 
-    # connect to mist; we connect on instantiation to only connect once, then we
-    # subscribe/unsubscribe as we want to receive logs
+    # create a new mist adapter
     @mist = new Mist({logging: @options.logging})
-    try
-      @mist.connect(@options.url)
-    catch
-      @main.updateStatus "communication-error"
 
     # handle mist events
-    @mist.on "mist:_socket.onopen", (key, data)    => @main.updateStatus "connecting-live"
+    @mist.on "mist:_socket.onopen", (key, data)    => @_subscribe(); @main.updateStatus "awaiting-data"
     @mist.on "mist:_socket.reconnect", (key, data) => @main.updateStatus "connecting-live"
     @mist.on "mist:_socket.onerror", (key, data)   => @main.updateStatus "communication-error"
     @mist.on "mist:_socket.onclose", (key, data)   => @main.updateStatus "communication-error"
@@ -29,11 +24,23 @@ module.exports = class LiveView
   # when this view is loaded...
   load: () ->
     @main.currentLog = "liveView"
-    @mist.subscribe(@tags)
-    @main.updateStatus "awaiting-data"
+
+    # try and connect to mist; we do this each time the view is loaded so we can
+    # provide correct output based on the state of the socket
+    try
+      @main.updateStatus "connecting-live"
+      @mist.connect(@options.url)
+    catch
+      @main.updateStatus "communication-error"
 
   # when this view is unloaded...
-  unload: () -> @mist.unsubscribe(@tags)
+  unload: () -> @_unsubscribe()
+
+  #
+  _subscribe: () -> @mist.subscribe(@tags);
+
+  #
+  _unsubscribe: () -> @mist.unsubscribe(@tags)
 
   # load any logs that are published for the tags we're interested in
   _handleDataPublish: () ->
