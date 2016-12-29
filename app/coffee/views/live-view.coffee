@@ -9,11 +9,17 @@ module.exports = class LiveView
     #
     @tags = @options.tags
 
-    # create a new mist adapter
+    # create a new mist adapter and try to connect to mist; we do this once so
+    # that we only have a single socket open
     @mist = new Mist({logging: @options.logging})
+    try
+      @main.updateStatus "connecting-live"
+      @mist.connect(@options.url)
+    catch
+      @main.updateStatus "communication-error"
 
     # handle mist events
-    @mist.on "mist:_socket.onopen", (key, data)    => @_subscribe(); @main.updateStatus "awaiting-data"
+    @mist.on "mist:_socket.onopen", (key, data)    => @main.updateStatus "awaiting-data"
     @mist.on "mist:_socket.reconnect", (key, data) => @main.updateStatus "connecting-live"
     @mist.on "mist:_socket.onerror", (key, data)   => @main.updateStatus "communication-error"
     @mist.on "mist:_socket.onclose", (key, data)   => @main.updateStatus "communication-error"
@@ -25,13 +31,15 @@ module.exports = class LiveView
   load: () ->
     @main.currentLog = "liveView"
 
-    # try and connect to mist; we do this each time the view is loaded so we can
-    # provide correct output based on the state of the socket
-    try
-      @main.updateStatus "connecting-live"
-      @mist.connect(@options.url)
-    catch
+    # check on the state of the socket before trying to subscribe; this helps more
+    # accurately represent the state of the socket
+    if @mist._socket.readyState != 1
       @main.updateStatus "communication-error"
+      return
+
+    # if the socket is connected, subscribe to messages
+    @_subscribe()
+    @main.updateStatus "awaiting-data"
 
   # when this view is unloaded...
   unload: () -> @_unsubscribe()

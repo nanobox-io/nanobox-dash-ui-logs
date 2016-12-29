@@ -77,7 +77,7 @@
   }
 
   //
-  &.communication-error .output       {.messages:before {display:block; content:"Unable to retrieve logs. Please try again in a moment."; color:$dashboard_129;}}
+  &.communication-error .output       {.messages:before {display:block; content:"Unable to retrieve logs. Please refresh to try again."; color:$dashboard_129;}}
   &.connecting-live .output           {.messages:before {display:block; content:"Connecting Live Stream...";}}
   &.awaiting-data .output             {.messages:before {display:block; content:"Connected! Listening for your app to log something..."; color:$dashboard_106;}}
   &.retrieving-history-log .output    {.messages:before {display:block; content:"Retrieving Historical Data...";}}
