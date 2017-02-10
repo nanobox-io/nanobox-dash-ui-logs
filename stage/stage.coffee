@@ -5,13 +5,13 @@ window.init = () ->
   #
   options = {
       liveConfig: {
-        url:        "wss://proxy.nanobox.io/632831e2-b8f9-4f18-8e95-36bd7d4e3970/mist/subscribe/websocket?X-AUTH-TOKEN=J9C30jTkFo5arNWvtxQiOwKIeuMEh81H2fpg6Ls7lG4nyPcqdZ",
+        url:        "wss://proxy.nanobox.io/1c43fbab-8d75-4a38-b191-98d32ce4cb04/mist/subscribe/websocket?X-AUTH-TOKEN=eP524w9IpvfXQ8lRCcFBqLmdrMayUKOhHt3EAsuWojZiVJS7nz",
         tags:       ["log"],
         logging:    {enabled: true, level: "DEBUG"}
       },
 
       historicConfig: {
-        url:        "https://proxy.nanobox.io/100a4410-53e9-4913-a0eb-589a367c4d95/logvac/logs?X-USER-TOKEN=dTV1hpXryUmeZf4vsxCtjigG3cBHz5YA608Mk2PSKOWIFwNQaE",
+        url:        "https://proxy.nanobox.io/1c43fbab-8d75-4a38-b191-98d32ce4cb04/logvac/logs?X-USER-TOKEN=01DifGBnr8xVjds4ACKY5oERTkc6gePMXuqZawtOLFIlpvUzym",
         type:       "app",
         id:         "",
         limit:      50,

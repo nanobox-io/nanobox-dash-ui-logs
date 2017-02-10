@@ -9,14 +9,8 @@ module.exports = class LiveView
     #
     @tags = @options.tags
 
-    # create a new mist adapter and try to connect to mist; we do this once so
-    # that we only have a single socket open
+    # create a new mist adapter
     @mist = new Mist({logging: @options.logging})
-    try
-      @main.updateStatus "connecting-live"
-      @mist.connect(@options.url)
-    catch
-      @main.updateStatus "communication-error"
 
     # handle mist events
     @mist.on "mist:_socket.onopen", (key, data)    => @main.updateStatus "awaiting-data"
@@ -26,6 +20,18 @@ module.exports = class LiveView
 
     #
     @_handleDataPublish()
+
+    # try to connect to mist; we do this once so that we only have a single
+    # socket open. We'll connect after all handlers have been establed just to
+    # make sure we don't miss any events.
+    try
+      @main.updateStatus "connecting-live"
+      @mist.connect(@options.url)
+
+      # subscribe right after connecting to ensure no messages are missed
+      @_subscribe()
+    catch
+      @main.updateStatus "communication-error"
 
   # when this view is loaded...
   load: () ->
