@@ -16,7 +16,7 @@ options = {
   },
 
   historicConfig: {
-    url:        "https://127.0.0.1:1234?X-AUTH-TOKEN=TOKEN",
+    url:        "https://127.0.0.1:1234?X-USER-TOKEN=TOKEN",
     type:       "app",
     id:         "",
     limit:      50,
@@ -65,6 +65,7 @@ gulp
 # in another terminal
 nanobox dns add local dashlog.dev
 ```
+In order to use `dry-run`, you must remove the local dns entry and re-add for `dry-run`
 
 #### Notice
 This component was specifically designed to work with [nanopack/mist](https://github.com/nanopack/mist) and [nanopack/logvac](https://github.com/nanopack/logvac) and therefore makes use of [nanopack/mist-client-js](https://github.com/nanopack/mist-client-js) and [nanopack/logvac-client-js](https://github.com/nanopack/logvac-client-js) for all connections to, and communication with, those services (please see their respective README's for any troubleshooting).

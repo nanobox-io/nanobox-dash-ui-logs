@@ -6,13 +6,24 @@ run.config:
     - curl -k -o /data/bin/mist https://s3.amazonaws.com/tools.nanopack.io/mist/linux/amd64/mist
     - chmod 755 /data/bin/mist
     - curl -k -o /data/etc/narc.conf https://raw.githubusercontent.com/nanopack/logvac/feature/multi-tag/example-narc.conf
-    # - npm install
-    # - npm rebuild node-sass
-    # - gulp
+    - gulp compile
+
+deploy.config:
+  transform:
+    - sudo mkdir -p /var/log/gonano/logvac/
+    - sudo mkdir -p /var/log/gonano/mist/
+    - sudo chown gonano: /var/log/gonano/logvac/
+    - sudo chown gonano: /var/log/gonano/mist/
+    - touch /var/log/gonano/mist/current
+    - npm install -g gulp
+
 web.logs:
   start:
-    logvac: /data/bin/logvac -p mist://localhost:8888 -P secret -d boltdb:///tmp/db.bolt -d boltdb:///tmp/db.bolt -A boltdb:///tmp/auth.bolt -i -s -a :6360 -u :6361 -t :6361
+    logvac: bash -c '/data/bin/logvac -A boltdb:///tmp/auth.bolt add-token --token secret; /data/bin/logvac -p mist://localhost:8888 -P secret -d boltdb:///tmp/db.bolt -d boltdb:///tmp/db.bolt -A boltdb:///tmp/auth.bolt -i -s -a :6360 -u :6361 -t :6361'
     mist: /data/bin/mist --server --listeners 'tcp://0.0.0.0:8888,ws://0.0.0.0:1445'
-    woodchuck: while true; do echo $(date) >> /var/log/gonano/logvac/current; sleep 3s; done
+    woodchuck: bash -c 'while true; do echo `date` | sudo tee -a /var/log/gonano/logvac/current > /dev/null; sleep 3s; done'
     devnarc: /opt/gonano/bin/narcd /data/etc/narc.conf
-    logui: gulp
+    logui: /app/node_modules/.bin/gulp serve
+  ports:
+    - tcp:1445:1445
+    - tcp:6360:6360

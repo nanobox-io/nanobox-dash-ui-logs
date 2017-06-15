@@ -184,22 +184,18 @@ server = ->
     .use( serveIndex(directory) )
 
   http.createServer(app).listen port, hostname
-#  livereload.listen()
   console.log "SERVER LISTENING -> localhost:#{port}"
-
-# Open in the browser
-#launch = -> gulp.src("").pipe open( uri: "http://localhost:8080/index.html" )
 
 
 # ----------- MAIN ----------- #
 
 gulp.task 'clean',                  (cb) -> rimraf './server', cb
 gulp.task 'bowerLibs', ['clean'],   ()   -> copyBowerLibs()
-gulp.task 'compile', ['bowerLibs'], (cb) -> compileFiles(true, cb)
+gulp.task 'compile', ['bowerLibs'], (cb) -> compileFiles(false, cb)
 gulp.task 'server', ['compile'],    (cb) -> server()
 gulp.task 'default', ['server']
 
-gulp.task 'serve',    (cb) -> server()
+gulp.task 'serve', (cb) -> server()
 
 # ----------- BUILD (rel) ----------- #
 
