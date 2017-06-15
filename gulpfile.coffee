@@ -135,8 +135,11 @@ copyAssets = (destination, cb) ->
     .pipe gulp.dest(destination)
     .on('end', cb)
 
+# always copy the libs (clean clears)
 copyBowerLibs = ()->
-  bower().pipe gulp.dest('./server/bower-libs/')
+  bower()
+  gulp.src('./bower_components/**')
+    .pipe gulp.dest('./server/bower-libs/')
 
 copyFilesToBuild = ->
   gulp.src( './server/js/*' ).pipe gulp.dest('./rel/')
@@ -171,7 +174,7 @@ minifyAndJoin = () ->
 # ------------------------------------ Server
 
 server = ->
-  port      = 9365
+  port      = 8080
   hostname  = null # allow to connect from anywhere
   base      = 'server'
   directory = 'server'
@@ -181,11 +184,11 @@ server = ->
     .use( serveIndex(directory) )
 
   http.createServer(app).listen port, hostname
-  livereload.listen()
+#  livereload.listen()
   console.log "SERVER LISTENING -> localhost:#{port}"
 
 # Open in the browser
-launch = -> gulp.src("").pipe open( uri: "http://localhost:9365/index.html" )
+#launch = -> gulp.src("").pipe open( uri: "http://localhost:8080/index.html" )
 
 
 # ----------- MAIN ----------- #
@@ -193,8 +196,10 @@ launch = -> gulp.src("").pipe open( uri: "http://localhost:9365/index.html" )
 gulp.task 'clean',                  (cb) -> rimraf './server', cb
 gulp.task 'bowerLibs', ['clean'],   ()   -> copyBowerLibs()
 gulp.task 'compile', ['bowerLibs'], (cb) -> compileFiles(true, cb)
-gulp.task 'server', ['compile'],    (cb) -> server(); launch();
+gulp.task 'server', ['compile'],    (cb) -> server()
 gulp.task 'default', ['server']
+
+gulp.task 'serve',    (cb) -> server()
 
 # ----------- BUILD (rel) ----------- #
 
