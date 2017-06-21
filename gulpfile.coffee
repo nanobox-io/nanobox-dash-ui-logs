@@ -184,7 +184,8 @@ server = ->
     .use( serveIndex(directory) )
 
   http.createServer(app).listen port, hostname
-  console.log "SERVER LISTENING -> localhost:#{port}"
+  console.log "SERVER LISTENING -> dashlog.dev:#{port}"
+  console.log "NOTE: Make sure you run `nanobox dns add local dashlog.dev` in another terminal"
 
 
 # ----------- MAIN ----------- #
