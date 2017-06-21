@@ -4,7 +4,7 @@ Expander      = require 'utils/expander'
 Follower      = require 'utils/follower'
 
 #
-component    = require 'jade/component'
+component    = require 'jade/component.js'
 
 #
 class Logs
@@ -68,6 +68,10 @@ class Logs
 
     entry.short_date_time = moment(entry.time).format("DD MMM, h:mm a")
     entry.log = "#{entry.message}".replace(/\s?\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d+Z|\s?\d{4}-\d{2}-\d{2}[_T]\d{2}:\d{2}:\d{2}.\d{5}|\s?\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}|\s?\[\d{2}\/\w{3}\/\d{4}\s\d{2}:\d{2}:\d{2}\]?/gm, "")#.replace(/(\r\n|\n|\r)/gm,"\r\n");
+
+    # we only want to display the first tag if it's an array (won't break if old logvac still in use)
+    if entry.tag.constructor == Array
+      entry.tag = entry.tag[0]
 
     # add any 'new' processes to an array
     @_processes.push entry.tag unless _.includes(@_processes, entry.tag)
